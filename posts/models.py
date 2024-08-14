@@ -9,3 +9,6 @@ class Post(models.Model):
     reblogged = models.ForeignKey(
         "self", on_delete=models.CASCADE, related_name="reblogs", null=True, blank=True)
     time_posted = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.author.username} | {self.text}"
