@@ -1,7 +1,21 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
 {% for post in post_list %}
-<h1>{{ post.text }}</h1>
+<div class="col-md-12">
+  <div class="blog-entry ftco-animate d-md-flex">
+    <div class="text text-2 pl-md-4">
+      <div class="meta-wrap">
+        <p class="meta">
+          <span><i class="icon-calendar mr-2"></i>{{ post.time_posted }}</span>
+          <span><a href="single.html"><i class="fa-solid fa-user"></i>{{ post.author }}</a></span>
+          <span><i class="icon-comment2 mr-2"></i>5 Comment</span>
+        </p>
+      </div>
+      <p class="mb-4">{{ post.text }}</p>
+    </div>
+  </div>
+</div>
 {% endfor %}
 {% endblock %}
