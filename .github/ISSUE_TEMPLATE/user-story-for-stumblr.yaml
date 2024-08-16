@@ -1,6 +1,6 @@
 name: User Story for Stumblr
 description: A template for the user stories for the stumblr project.
-title: "[USER STORY]: "
+title: "[USER STORY] "
 labels: ["enhancement"]
 projects: ["DajanPlackovic/3"]
 assignees:
@@ -16,7 +16,6 @@ body:
           As a **role** I can **capability** so that **received benefit**
 
           Acceptance Criteria:
-
           - AC1
           - AC2
     validations:
