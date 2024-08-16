@@ -9,13 +9,19 @@ body:
   - type: textarea
     id: user-story
     attributes:
-      label: " "
-      description: Enter a User Story in the proper form and Acceptence Criteria in a bulletpoint list.
-      placeholder: Enter the value here
+      label: "User Story"
+      description: Enter a User Story in the proper form
       value: |
           As a **role** I can **capability** so that **received benefit**
+    validations:
+      required: true
 
-          Acceptance Criteria:
+  - type: textarea
+    id: acceptance-criteria
+    attributes:
+      label: "Acceptance Criteria"
+      description: Enter Acceptence Criteria in a bulletpoint list
+      value: |
           - AC1
           - AC2
     validations:
