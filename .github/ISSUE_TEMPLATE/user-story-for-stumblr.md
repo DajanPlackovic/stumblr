@@ -3,7 +3,7 @@ name: User Story for Stumblr
 about: A template for the user stories for the stumblr project.
 title: '[USER STORY] Short Description'
 labels: 'enhancement'
-projects: 'DajanPlackovic/3'
+projects: ['DajanPlackovic/3']
 assignees: DajanPlackovic
 ---
 
