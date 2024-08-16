@@ -9,7 +9,6 @@ body:
   - type: textarea
     id: user-story
     attributes:
-      label: User Story in the proper form
       description: Enter a User Story in the proper form and Acceptence Criteria in a bulletpoint list.
       placeholder: Enter the value here
       value: |
