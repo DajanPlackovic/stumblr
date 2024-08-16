@@ -6,9 +6,6 @@ projects: ["DajanPlackovic/3"]
 assignees:
   - DajanPlackovic
 body:
-  - type: markdown
-    attributes:
-      value: |
   - type: textarea
     id: user-story
     attributes:
