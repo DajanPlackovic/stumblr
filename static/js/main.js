@@ -41,12 +41,6 @@ $('a[data-action="delete"]').on('click', function (e) {
         type: 'POST',
         url: url,
         data: $('#delete_post_form').serialize(),
-        beforeSend: () => {
-          $('#general_modal #loader').show();
-        },
-        success: () => {
-          $('#general_modal #loader').hide();
-        },
       }).done(() => {
         // @TODO: just remove the deleted post, instead of reloading
         window.location.replace('');
@@ -57,10 +51,13 @@ $('a[data-action="delete"]').on('click', function (e) {
     url: url,
     data: $('#delete_post_form').serialize(),
     beforeSend: () => {
-      $('#general_modal #loader').show();
+      $('#general_modal .modal-body').html(
+        `<div class="spinner-grow" role="status">
+  <span class="sr-only">Loading...</span>
+</div>`
+      );
     },
     success: (data) => {
-      $('#general_modal #loader').hide();
       $('#general_modal .modal-body').html(data);
     },
   });
