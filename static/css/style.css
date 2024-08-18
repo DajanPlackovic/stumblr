@@ -20,6 +20,19 @@
   margin: 5px 0;
 }
 
+.modal-body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#loader {
+  left: 50%;
+  top: 50%;
+  margin: auto;
+  height: 5em;
+}
+
 /*=============================================
 =            Floating Action Menu             =
 =============================================*/

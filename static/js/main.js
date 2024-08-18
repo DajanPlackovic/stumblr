@@ -37,13 +37,31 @@ $('a[data-action="delete"]').on('click', function (e) {
     .addClass('btn-danger')
     .on('click', () => {
       $('#general_modal').modal('hide');
-      $.post(url, $('#delete_post_form').serialize()).done(() => {
+      $.ajax({
+        type: 'POST',
+        url: url,
+        data: $('#delete_post_form').serialize(),
+        beforeSend: () => {
+          $('#general_modal #loader').show();
+        },
+        success: () => {
+          $('#general_modal #loader').hide();
+        },
+      }).done(() => {
         // @TODO: just remove the deleted post, instead of reloading
         window.location.replace('');
       });
     });
-  $.get(url, (data, status) => {
-    $('#general_modal .modal-body').html(data);
-    // @TODO: Handle errors
+  $.ajax({
+    type: 'GET',
+    url: url,
+    data: $('#delete_post_form').serialize(),
+    beforeSend: () => {
+      $('#general_modal #loader').show();
+    },
+    success: (data) => {
+      $('#general_modal #loader').hide();
+      $('#general_modal .modal-body').html(data);
+    },
   });
 });
