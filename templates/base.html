@@ -41,6 +41,7 @@
   </div>
   <!-- Floating Action Button like Google Material, taken from https://opensource.propeller.in/components/floating-button -->
   <div class="menu pmd-floating-action" role="navigation">
+    {% if user.is_authenticated %}
     <a href="javascript:void(0);"
       class="pmd-floating-action-btn btn btn-sm pmd-btn-fab pmd-btn-raised pmd-ripple-effect btn-default"
       data-title="Create Post" data-bs-toggle="modal" data-bs-target="#general_modal" id="create_post_btn">
@@ -52,6 +53,7 @@
       <span class="pmd-floating-hidden">Action</span>
       <i class="fas fa-plus pmd-sm"></i>
     </a>
+    {% endif %}
   </div>
   <!-- General purpose modal for content insertion via JS -->
   <div class="modal" tabindex="-1" data-bs-backdrop="static" id="general_modal">
