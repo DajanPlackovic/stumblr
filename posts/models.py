@@ -15,12 +15,19 @@ class Post(models.Model):
 
 
 class Collection(models.Model):
-    name = models.CharField(max_length=200)
+    name = models.CharField(max_length=200, unique=True)
     posts = models.ManyToManyField(Post, blank=True)
     author = models.ForeignKey(
         User, default=1, on_delete=models.CASCADE)
     created_on = models.DateTimeField(auto_now_add=True)
+    slug = models.SlugField(unique=True)
     updated_on = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.name
+
+    def save(self, **kwargs):
+        # @TODO: Find a better non-handrolled solution for this
+        self.slug = f"{self.author.username}-{self.name}".lower().replace(" ", "-")
+        print(self.slug)
+        super().save(**kwargs)

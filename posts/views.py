@@ -45,8 +45,17 @@ def delete_post(request, post_id):
 
 
 # Collection Views
-def view_collections(request):
+def collection_list(request):
     collections = Collection.objects.all()
     return render(request, 'posts/collections.html', {
         "collections": collections
+    })
+
+
+def individual_collection(request, slug):
+    collection = get_object_or_404(Collection, slug=slug)
+    posts = collection.posts.all()
+    return render(request, 'posts/single_collection.html', {
+        "collection": collection,
+        "post_list": posts,
     })
