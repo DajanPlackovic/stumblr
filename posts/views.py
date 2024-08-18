@@ -6,7 +6,7 @@ from .forms import CreatePostForm
 
 # Create your views here.
 def index(request):
-    post_list = Post.objects.all()
+    post_list = Post.objects.all().order_by('-time_posted')
     return render(request, 'posts/index.html', {
         "post_list": post_list
     })
