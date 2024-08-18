@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils.text import slugify
 
 
 # Create your models here.
@@ -28,7 +29,6 @@ class Collection(models.Model):
         return self.name
 
     def save(self, **kwargs):
-        # @TODO: Find a better non-handrolled solution for this
-        self.slug = f"{self.author.username}-{self.name}".lower().replace(" ", "-")
+        self.slug = slugify(f"{self.author.username}-{self.name}")
         print(self.slug)
         super().save(**kwargs)
