@@ -3,33 +3,5 @@
 
 {% block content %}
 <h1>{{collection.name}}</h1>
-{% for post in post_list %}
-<div class="card col-md-6 col-lg-4 mx-auto my-2">
-  <div class="card-header d-flex justify-content-between align-items-center">
-    <div class="meta-data">
-      <!-- @TODO: add author url logic when user page is created -->
-      <div class="author"><a href="author_url_goes_here">@{{ post.author.username }}</a></div>
-      <div class="date">{{ post.time_posted|date:"j/m/Y H:i" }}</div>
-    </div>
-    <div class="post__actions">
-      {% if post.author == user %}
-      <button class="btn btn-danger" data-post="{{ post.id }}" data-action="delete"><i
-          class="fas fa-trash"></i></button>
-      {% endif %}
-    </div>
-  </div>
-  {% if post.reblogged %}
-  <div class="card col-11 mx-auto">
-    <div class="card-body">
-      <p class="card-text">{{ post.reblogged.text }}</p>
-      <a href="#" class="btn btn-primary">Go somewhere</a>
-    </div>
-  </div>
-  {% endif %}
-  <div class="card-body">
-    <p class="card-text">{{ post.text }}</p>
-    <a href="#" class="btn btn-primary">Go somewhere</a>
-  </div>
-</div>
-{% endfor %}
+{% include 'posts/post_list.html' %}
 {% endblock %}
