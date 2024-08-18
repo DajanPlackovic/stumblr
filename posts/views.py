@@ -13,12 +13,15 @@ def index(request):
 
 
 def create_post(request):
+    # @TODO: add error handling
     if request.method == "POST":
         create_post_form = CreatePostForm(data=request.POST)
         if create_post_form.is_valid():
             new_post = create_post_form.save(commit=False)
             new_post.author = request.user
             new_post.save()
+            # @TODO: change this to behave differently depending on whether
+            # the user is already on the posts page or on another page
             return HttpResponse(status=200)
     else:
         create_post_form = CreatePostForm()
