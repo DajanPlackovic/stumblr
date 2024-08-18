@@ -1,0 +1,24 @@
+
+name: Bug for Stumblr
+description: A template for issues and bugs for the stumblr project.
+title: "[BUG] "
+labels: ["bug"]
+projects: ["DajanPlackovic/3"]
+assignees:
+  - DajanPlackovic
+body:
+  - type: textarea
+    id: bug-description
+    attributes:
+      label: "Bug"
+      description: Enter a description of the bug or issue
+      value: |
+          This went super wrong
+    validations:
+      required: true
+
+  - type: textarea
+    id: screenshot
+    attributes:
+      label: "Screenshot"
+      description: Provide a screenshot of the issue
