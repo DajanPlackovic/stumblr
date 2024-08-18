@@ -1,3 +1,6 @@
 {% load crispy_forms_tags %}
 
-{{ create_post_form|crispy }}
+<form action="create-post" method="post" id="create_post_form">
+  {{ create_post_form|crispy }}
+  {% csrf_token %}
+</form>
