@@ -17,6 +17,10 @@ class Post(models.Model):
 class Collection(models.Model):
     name = models.CharField(max_length=200)
     posts = models.ManyToManyField(Post, blank=True)
+    author = models.ForeignKey(
+        User, default=1, on_delete=models.CASCADE)
+    created_on = models.DateTimeField(auto_now_add=True)
+    updated_on = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.name

@@ -1,10 +1,11 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
-from .models import Post
+from .models import Post, Collection
 from .forms import CreatePostForm
 
 
 # Create your views here.
+# Post Views
 def index(request):
     post_list = Post.objects.all().order_by('-time_posted')
     return render(request, 'posts/index.html', {
@@ -41,3 +42,11 @@ def delete_post(request, post_id):
             return render(request, 'posts/delete_post_form.html', {
                 "post": post
             })
+
+
+# Collection Views
+def view_collections(request):
+    collections = Collection.objects.all()
+    return render(request, 'posts/collections.html', {
+        "collections": collections
+    })
