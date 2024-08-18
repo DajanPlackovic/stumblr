@@ -47,11 +47,16 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
+    'crispy_forms',
+    'crispy_bootstrap5',
     # @TODO: Uncomment when OAuth is set up for Facebook and Google
     # 'allauth.socialaccount.providers.facebook',
     # 'allauth.socialaccount.providers.google',
     'posts',
 ]
+
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
