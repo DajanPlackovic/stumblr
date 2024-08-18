@@ -59,6 +59,20 @@
   </nav>
   {% block content %}
   {% endblock %}
+  <!-- Floating Action Button like Google Material, taken from https://opensource.propeller.in/components/floating-button -->
+  <div class="menu pmd-floating-action" role="navigation">
+    <a href="javascript:void(0);"
+      class="pmd-floating-action-btn btn btn-sm pmd-btn-fab pmd-btn-raised pmd-ripple-effect btn-default"
+      data-title="Create Post">
+      <span class="pmd-floating-hidden">Create Post</span>
+      <i class="fas fa-pen"></i>
+    </a>
+    <a class="pmd-floating-action-btn btn pmd-btn-fab pmd-btn-raised pmd-ripple-effect btn-primary" data-title="Add"
+      href="javascript:void(0);">
+      <span class="pmd-floating-hidden">Action</span>
+      <i class="fas fa-plus pmd-sm"></i>
+    </a>
+  </div>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
     crossorigin="anonymous"></script>
