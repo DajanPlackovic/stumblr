@@ -16,9 +16,10 @@ class Post(models.Model):
 
 class Collection(models.Model):
     name = models.CharField(max_length=200, unique=True)
-    posts = models.ManyToManyField(Post, blank=True)
+    posts = models.ManyToManyField(
+        Post, blank=True, related_name="collections")
     author = models.ForeignKey(
-        User, default=1, on_delete=models.CASCADE)
+        User, default=1, on_delete=models.CASCADE, related_name="collections")
     created_on = models.DateTimeField(auto_now_add=True)
     slug = models.SlugField(unique=True)
     updated_on = models.DateTimeField(auto_now=True)

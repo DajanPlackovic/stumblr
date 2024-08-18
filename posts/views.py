@@ -59,3 +59,10 @@ def individual_collection(request, slug):
         "collection": collection,
         "post_list": posts,
     })
+
+
+def collection_menu(request):
+    collections = request.user.collections.all()
+    return render(request, 'posts/collection_menu.html', {
+        "collections": collections,
+    })

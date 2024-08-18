@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import index, create_post, delete_post, collection_list, individual_collection
+from .views import index, create_post, delete_post, collection_list, individual_collection, collection_menu
 
 urlpatterns = [
     path('', index, name="index"),
@@ -8,4 +8,6 @@ urlpatterns = [
     path('collections/', collection_list, name="collection-list"),
     path('collections/<slug:slug>', individual_collection,
          name="individual-collection"),
+    path('collection-menu', collection_menu,
+         name="collection-menu"),
 ]

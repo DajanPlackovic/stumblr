@@ -62,3 +62,28 @@ $('button[data-action="delete"]').on('click', function (e) {
     },
   });
 });
+
+/*=============================================
+=              Add to Collection              =
+=============================================*/
+$('button[data-action="add_to_collection"]').on('click', function () {
+  const { top, left } = $(this).position();
+  const height = $(this).height();
+  const menu = $(this).next();
+  $(menu)
+    .css('left', left)
+    .css('top', top + height + 10)
+    .toggleClass('show')
+    .html(
+      `<div class="spinner-grow" role="status">
+  <span class="sr-only">Loading...</span>
+</div>`
+    );
+  $.ajax({
+    type: 'GET',
+    url: 'collection-menu',
+    success: (data) => {
+      menu.html(data);
+    },
+  });
+});
