@@ -6,10 +6,27 @@
   <div class="col-12">
     {% for post in post_list %}
     <div class="card col-md-6 col-lg-4 mx-auto my-2">
-      <div class="meta-data">
-        <!-- @TODO: add author url logic when user page is created -->
-        <div class="author"><a href="author_url_goes_here">@{{ post.author.username }}</a></div>
-        <div class="date">{{ post.time_posted|date:"j/m/Y H:i" }}</div>
+      <div class="card-header row">
+        <div class="col-9">
+          <div class="meta-data">
+            <!-- @TODO: add author url logic when user page is created -->
+            <div class="author"><a href="author_url_goes_here">@{{ post.author.username }}</a></div>
+            <div class="date">{{ post.time_posted|date:"j/m/Y H:i" }}</div>
+          </div>
+        </div>
+        <div class="col-3">
+          <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
+              aria-expanded="false">
+              <i class="fas fa-ellipsis"></i>
+            </button>
+            <ul class="dropdown-menu">
+              {% if post.author == user %}
+              <li><a class="dropdown-item" href="#">Delete</a></li>
+              {% endif %}
+            </ul>
+          </div>
+        </div>
       </div>
       {% if post.reblogged %}
       <div class="card col-11 mx-auto">
