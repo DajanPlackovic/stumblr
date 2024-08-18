@@ -44,11 +44,17 @@
     {% if user.is_authenticated %}
     <a href="javascript:void(0);"
       class="pmd-floating-action-btn btn btn-sm pmd-btn-fab pmd-btn-raised pmd-ripple-effect btn-default"
+      data-title="Create Collection" data-bs-toggle="modal" data-bs-target="#general_modal" id="create_collection_btn">
+      <span class="pmd-floating-hidden">Create Collection</span>
+      <i class="fa-regular fa-bookmark"></i>
+    </a>
+    <a href="javascript:void(0);"
+      class="pmd-floating-action-btn btn btn-sm pmd-btn-fab pmd-btn-raised pmd-ripple-effect btn-default"
       data-title="Create Post" data-bs-toggle="modal" data-bs-target="#general_modal" id="create_post_btn">
       <span class="pmd-floating-hidden">Create Post</span>
       <i class="fas fa-pen"></i>
     </a>
-    <a class="pmd-floating-action-btn btn pmd-btn-fab pmd-btn-raised pmd-ripple-effect btn-primary" data-title="Add"
+    <a class="pmd-floating-action-btn btn pmd-btn-fab pmd-btn-raised pmd-ripple-effect btn-primary"
       href="javascript:void(0);">
       <span class="pmd-floating-hidden">Action</span>
       <i class="fas fa-plus pmd-sm"></i>
