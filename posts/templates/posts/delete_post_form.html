@@ -1,0 +1,40 @@
+<form action="delete-post/{{post.id}}" method="post" id="delete_post_form">
+  <p>Are you sure you want to delete the following post?</p>
+  {% csrf_token %}
+  <div class="card col-md-6 col-lg-4 mx-auto my-2">
+    <div class="card-header row">
+      <div class="col-9">
+        <div class="meta-data">
+          <!-- @TODO: add author url logic when user page is created -->
+          <div class="author"><a href="author_url_goes_here">@{{ post.author.username }}</a></div>
+          <div class="date">{{ post.time_posted|date:"j/m/Y H:i" }}</div>
+        </div>
+      </div>
+      <div class="col-3">
+        <div class="dropdown">
+          <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
+            aria-expanded="false">
+            <i class="fas fa-ellipsis"></i>
+          </button>
+          <ul class="dropdown-menu">
+            {% if post.author == user %}
+            <li><a class="dropdown-item" href="" data-post="{{ post.id }}" data-action="delete">Delete</a></li>
+            {% endif %}
+          </ul>
+        </div>
+      </div>
+    </div>
+    {% if post.reblogged %}
+    <div class="card col-11 mx-auto">
+      <div class="card-body">
+        <p class="card-text">{{ post.reblogged.text }}</p>
+        <a href="#" class="btn btn-primary">Go somewhere</a>
+      </div>
+    </div>
+    {% endif %}
+    <div class="card-body">
+      <p class="card-text">{{ post.text }}</p>
+      <a href="#" class="btn btn-primary">Go somewhere</a>
+    </div>
+  </div>
+</form>

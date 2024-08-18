@@ -1,5 +1,5 @@
-from django.shortcuts import render
-from django.http import HttpResponse
+from django.shortcuts import render, get_object_or_404
+from django.http import HttpResponse, HttpResponseRedirect
 from .models import Post
 from .forms import CreatePostForm
 
@@ -28,3 +28,16 @@ def create_post(request):
         return render(request, 'posts/create_post_form.html', {
             "create_post_form": create_post_form,
         })
+
+
+def delete_post(request, post_id):
+    post = get_object_or_404(Post, pk=post_id)
+
+    if post.author == request.user:
+        if request.method == "POST":
+            post.delete()
+            return HttpResponse(status=200)
+        else:
+            return render(request, 'posts/delete_post_form.html', {
+                "post": post
+            })
