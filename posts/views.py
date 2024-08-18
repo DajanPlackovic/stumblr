@@ -1,5 +1,4 @@
 from django.shortcuts import render
-from django.contrib import messages
 from django.http import HttpResponse
 from .models import Post
 from .forms import CreatePostForm
