@@ -12,3 +12,11 @@ class Post(models.Model):
 
     def __str__(self):
         return f"{self.author.username} | {self.text}"
+
+
+class Collection(models.Model):
+    name = models.CharField(max_length=200)
+    posts = models.ManyToManyField(Post, blank=True)
+
+    def __str__(self):
+        return self.name
