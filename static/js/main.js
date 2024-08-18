@@ -29,7 +29,7 @@ $('#create_post_btn').on('click', () => {
 =              Action Menu Posts              =
 =============================================*/
 
-$('a[data-action="delete"]').on('click', function (e) {
+$('button[data-action="delete"]').on('click', function (e) {
   e.preventDefault();
   const url = `delete-post/${$(this).attr('data-post')}`;
   updateModal('Delete Post', 'Cancel', 'Delete');
