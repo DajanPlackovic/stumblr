@@ -19,7 +19,6 @@ function updateModal(title, cancelBtn, postBtn) {
 =                 Action Menu                 =
 =============================================*/
 
-const createPostBtn = document.getElementById('create_post_btn');
 $('#create_post_btn').on('click', () => {
   updateModal('Create Post', 'Cancel', 'Post');
   $('#general_modal .btn-primary').on('click', () => {
