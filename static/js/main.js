@@ -108,7 +108,7 @@ $('button[data-action="add_to_collection"]').on('click', function () {
             'X-CSRFToken': csrftoken,
           },
           mode: 'same-origin',
-          data: $(menu).find('form').serialize(),
+          data: $(menu).find('.collection-list').serialize(),
           // @TODO: handle errors, show result in toast
         });
       }
@@ -120,19 +120,71 @@ $('button[data-action="add_to_collection"]').on('click', function () {
     type: 'GET',
     url: `collection-menu/${$(btn).attr('data-post')}`,
     success: (data) => {
-      let htmlOut = '<form><ul class="list-group">';
+      let htmlOut = '<form class="collection-list"><ul class="list-group">';
       const { response } = data;
       for (const collection of response)
         htmlOut += `<li class="list-group-item d-flex justify-content-between">
-    ${collection.name}
-    <input class="form-check-input me-1 ms-2" type="checkbox" value="${
-      collection.id
-    }" aria-label="add post to ${collection.name}" ${
+<input type="checkbox" class="btn-check" id="col-${
+          collection.id
+        }" autocomplete="off" value="${
+          collection.id
+        }" aria-label="add post to ${collection.name}" ${
           collection.checked ? 'checked' : ''
         } name="collection">
-  </li>`;
-      htmlOut += '</ul></form>';
-      $(menu).html(htmlOut);
+<label class="btn btn-primary w-100 text-center" for="col-${collection.id}">${
+          collection.name
+        }</label>
+    </li>`;
+      htmlOut += `</ul></form>
+  <form class="add-collection">
+    <button type="button" class="btn btn-primary w-100 mt-2" aria-label="create new Collection">
+      <i class="fas fa-plus"></i>
+    </button>
+              <input class="form-control mt-2" type="text"
+              placeholder="New Collection Name" aria-label="Enter new
+              Collection name and press enter to create" required>
+  </form>
+      `;
+      $(menu).html(htmlOut).find('.add-collection input').hide();
+
+      /*----------  Add collection logic  ----------*/
+      $(menu)
+        .find('.add-collection')
+        .find('button')
+        .on('click', function () {
+          $(this).hide();
+          $('.add-collection').find('input').show().focus();
+          $('.add-collection').on('submit', function (e) {
+            e.preventDefault();
+            const name = $(this).find('input').val();
+            $.ajax({
+              type: 'POST',
+              url: '/create-collection',
+              data: { name },
+              headers: {
+                'X-CSRFToken': csrftoken,
+              },
+              success: (collection) => {
+                $(menu)
+                  .find('.collection-list')
+                  .append(
+                    `
+                  <li class="list-group-item d-flex justify-content-between">
+<input type="checkbox" class="btn-check" id="col-${collection.id}" autocomplete="off" value="${collection.id}" aria-label="add post to ${collection.name}" name="collection" checked>
+<label class="btn btn-primary w-100 text-center" for="col-${collection.id}">${collection.name}</label>
+    </li>
+`
+                  );
+                $(menu)
+                  .find('.add-collection input')
+                  .hide()
+                  .parent()
+                  .find('button')
+                  .show();
+              },
+            });
+          });
+        });
       populated = true;
     },
   });

@@ -77,3 +77,10 @@ def collection_menu(request, post_id):
         response = [{"name": collection.name, "id": collection.id,
                     "checked": collection.posts.filter(id=post_id).count() > 0} for collection in collections]
         return JsonResponse({"response": response})
+
+
+def create_collection(request):
+    name = dict(request.POST)["name"][0]
+    collection = request.user.collections.create(name=name)
+    # @TODO: Handle errors
+    return JsonResponse({"name": collection.name, "id": collection.id})
