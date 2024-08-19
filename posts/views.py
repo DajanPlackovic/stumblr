@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, JsonResponse
 from .models import Post, Collection
 from .forms import CreatePostForm
 
@@ -61,8 +61,8 @@ def individual_collection(request, slug):
     })
 
 
-def collection_menu(request):
+def collection_menu(request, post_id):
     collections = request.user.collections.all()
-    return render(request, 'posts/collection_menu.html', {
-        "collections": collections,
-    })
+    response = [{"name": collection.name, "id": collection.id,
+                 "checked": collection.posts.filter(id=post_id).count() > 0} for collection in collections]
+    return JsonResponse({"response": response})

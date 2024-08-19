@@ -109,9 +109,23 @@ $('button[data-action="add_to_collection"]').on('click', function () {
 
   $.ajax({
     type: 'GET',
-    url: 'collection-menu',
+    url: `collection-menu/${$(btn).attr('data-post')}`,
     success: (data) => {
-      $(menu).html(data);
+      console.log(data);
+      let htmlOut = '<ul class="list-group">';
+      const { response } = data;
+      console.log(response);
+      for (const collection of response)
+        htmlOut += `<li class="list-group-item d-flex justify-content-between">
+    ${collection.name}
+    <input class="form-check-input me-1 ms-2" type="checkbox" value="${
+      collection.id
+    }" aria-label="add post to ${collection.name}" ${
+          collection.checked ? 'checked' : ''
+        }>
+  </li>`;
+      htmlOut += '</ul>';
+      $(menu).html(htmlOut);
     },
   });
 });

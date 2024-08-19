@@ -8,6 +8,6 @@ urlpatterns = [
     path('collections/', collection_list, name="collection-list"),
     path('collections/<slug:slug>', individual_collection,
          name="individual-collection"),
-    path('collection-menu', collection_menu,
+    path('collection-menu/<int:post_id>', collection_menu,
          name="collection-menu"),
 ]
