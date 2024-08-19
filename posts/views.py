@@ -62,7 +62,18 @@ def individual_collection(request, slug):
 
 
 def collection_menu(request, post_id):
-    collections = request.user.collections.all()
-    response = [{"name": collection.name, "id": collection.id,
-                 "checked": collection.posts.filter(id=post_id).count() > 0} for collection in collections]
-    return JsonResponse({"response": response})
+    if request.method == 'POST':
+        post = get_object_or_404(Post, pk=post_id)
+        for collection in request.user.collections.all():
+            collection.posts.remove(post)
+        collections = dict(request.POST)["collection"]
+        for id in collections:
+            collection = get_object_or_404(Collection, pk=id)
+            if request.user == collection.author:
+                post.collections.add(collection)
+        return HttpResponse(status=200)
+    else:
+        collections = request.user.collections.all()
+        response = [{"name": collection.name, "id": collection.id,
+                    "checked": collection.posts.filter(id=post_id).count() > 0} for collection in collections]
+        return JsonResponse({"response": response})

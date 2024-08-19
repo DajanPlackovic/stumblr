@@ -5,6 +5,9 @@ import {
   offset,
 } from 'https://cdn.jsdelivr.net/npm/@floating-ui/dom@1.6.10/+esm';
 
+// make the token available to ajax
+const csrftoken = Cookies.get('csrftoken');
+
 function updateModal(title, cancelBtn, postBtn) {
   $('#general_modal .modal-title').text(title);
   $('#general_modal button[data-bs-dismiss]').text(cancelBtn);
@@ -76,6 +79,7 @@ $('button[data-action="delete"]').on('click', function (e) {
 $('button[data-action="add_to_collection"]').on('click', function () {
   const menu = $(this).next()[0];
   const btn = this;
+  let populated = false;
   if ($(menu).hasClass('show')) {
     $(menu).removeClass('show');
     return;
@@ -103,6 +107,18 @@ $('button[data-action="add_to_collection"]').on('click', function () {
   $(document).on('click', function (event) {
     if (!(menu.contains(event.target) || btn.contains(event.target))) {
       $(menu).removeClass('show');
+      if (populated) {
+        $.ajax({
+          type: 'POST',
+          url: `collection-menu/${$(btn).attr('data-post')}`,
+          headers: {
+            'X-CSRFToken': csrftoken,
+          },
+          mode: 'same-origin',
+          data: $(menu).find('form').serialize(),
+          // @TODO: handle errors, show result in toast
+        });
+      }
       return;
     }
   });
@@ -111,10 +127,8 @@ $('button[data-action="add_to_collection"]').on('click', function () {
     type: 'GET',
     url: `collection-menu/${$(btn).attr('data-post')}`,
     success: (data) => {
-      console.log(data);
-      let htmlOut = '<ul class="list-group">';
+      let htmlOut = '<form><ul class="list-group">';
       const { response } = data;
-      console.log(response);
       for (const collection of response)
         htmlOut += `<li class="list-group-item d-flex justify-content-between">
     ${collection.name}
@@ -122,10 +136,11 @@ $('button[data-action="add_to_collection"]').on('click', function () {
       collection.id
     }" aria-label="add post to ${collection.name}" ${
           collection.checked ? 'checked' : ''
-        }>
+        } name="collection">
   </li>`;
-      htmlOut += '</ul>';
+      htmlOut += '</ul></form>';
       $(menu).html(htmlOut);
+      populated = true;
     },
   });
 });
