@@ -1,3 +1,10 @@
+import {
+  computePosition,
+  flip,
+  shift,
+  offset,
+} from 'https://cdn.jsdelivr.net/npm/@floating-ui/dom@1.6.10/+esm';
+
 function updateModal(title, cancelBtn, postBtn) {
   $('#general_modal .modal-title').text(title);
   $('#general_modal button[data-bs-dismiss]').text(cancelBtn);
@@ -67,23 +74,44 @@ $('button[data-action="delete"]').on('click', function (e) {
 =              Add to Collection              =
 =============================================*/
 $('button[data-action="add_to_collection"]').on('click', function () {
-  const { top, left } = $(this).position();
-  const height = $(this).height();
-  const menu = $(this).next();
+  const menu = $(this).next()[0];
+  const btn = this;
+  if ($(menu).hasClass('show')) {
+    $(menu).removeClass('show');
+    return;
+  }
   $(menu)
-    .css('left', left)
-    .css('top', top + height + 10)
     .addClass('show')
     .html(
       `<div class="spinner-grow" role="status">
   <span class="sr-only">Loading...</span>
 </div>`
     );
+
+  // Positioning logic from FloatingUI, https://floating-ui.com/docs/tutorial
+  computePosition(btn, menu, {
+    placement: 'bottom',
+    middleware: [offset(0), flip(), shift({ padding: 0 })],
+  }).then(({ x, y }) => {
+    Object.assign(menu.style, {
+      left: `${x}px`,
+      top: `${y}px`,
+    });
+  });
+
+  // Hide if clicked away
+  $(document).on('click', function (event) {
+    if (!(menu.contains(event.target) || btn.contains(event.target))) {
+      $(menu).removeClass('show');
+      return;
+    }
+  });
+
   $.ajax({
     type: 'GET',
     url: 'collection-menu',
     success: (data) => {
-      menu.html(data);
+      $(menu).html(data);
     },
   });
 });
