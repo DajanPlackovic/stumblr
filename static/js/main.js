@@ -8,6 +8,10 @@ import {
 // make the token available to ajax
 const csrftoken = Cookies.get('csrftoken');
 
+const loader = `<div class="spinner-grow text-primary" role="status">
+  <span class="sr-only">Loading...</span>
+</div>`;
+
 function updateModal(title, cancelBtn, postBtn) {
   $('#general_modal .modal-title').text(title);
   $('#general_modal button[data-bs-dismiss]').text(cancelBtn);
@@ -60,11 +64,7 @@ $('button[data-action="delete"]').on('click', function (e) {
     url: url,
     data: $('#delete_post_form').serialize(),
     beforeSend: () => {
-      $('#general_modal .modal-body').html(
-        `<div class="spinner-grow" role="status">
-  <span class="sr-only">Loading...</span>
-</div>`
-      );
+      $('#general_modal .modal-body').html(loader);
     },
     success: (data) => {
       $('#general_modal .modal-body').html(data);
@@ -83,13 +83,7 @@ $('button[data-action="add_to_collection"]').on('click', function () {
     $(menu).removeClass('show');
     return;
   }
-  $(menu)
-    .addClass('show')
-    .html(
-      `<div class="spinner-grow" role="status">
-  <span class="sr-only">Loading...</span>
-</div>`
-    );
+  $(menu).addClass('show').html(loader);
 
   // Positioning logic from FloatingUI, https://floating-ui.com/docs/tutorial
   computePosition(btn, menu, {
