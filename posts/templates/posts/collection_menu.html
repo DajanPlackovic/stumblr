@@ -1,0 +1,8 @@
+<ul class="list-group">
+  {% for collection in collections %}
+  <li class="list-group-item d-flex justify-content-between">
+    {{ collection.name }}
+    <input class="form-check-input me-1 ms-2" type="checkbox" value="" aria-label="...">
+  </li>
+  {% endfor %}
+</ul>

@@ -73,7 +73,7 @@ $('button[data-action="add_to_collection"]').on('click', function () {
   $(menu)
     .css('left', left)
     .css('top', top + height + 10)
-    .toggleClass('show')
+    .addClass('show')
     .html(
       `<div class="spinner-grow" role="status">
   <span class="sr-only">Loading...</span>

@@ -180,6 +180,7 @@
   display: none;
   position: absolute;
   width: max-content;
+  z-index: 10;
 }
 
 .collection-menu.show {
