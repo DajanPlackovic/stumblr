@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, JsonResponse
 from django.contrib.auth.models import User
-from .models import Post, Collection
+from .models import Post, Collection, UserSlug
 from .forms import CreatePostForm
 
 
@@ -90,8 +90,8 @@ def create_collection(request):
 # User Views
 
 
-def user(request, username):
-    displayed_user = User.objects.filter(username=username).first()
+def user(request, slug):
+    displayed_user = UserSlug.objects.filter(slug=slug).first().user
     posts = displayed_user.posts.all()
     collections = displayed_user.collections.all()
     return render(request, 'posts/user.html', {

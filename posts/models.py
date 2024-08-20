@@ -31,5 +31,14 @@ class Collection(models.Model):
 
     def save(self, **kwargs):
         self.slug = slugify(f"{self.author.username}-{self.name}")
-        print(self.slug)
+        super().save(**kwargs)
+
+
+class UserSlug(models.Model):
+    user = models.OneToOneField(
+        User, on_delete=models.CASCADE, related_name="slug")
+    slug = models.SlugField(unique=True)
+
+    def save(self, **kwargs):
+        self.slug = slugify(self.user.username)
         super().save(**kwargs)
