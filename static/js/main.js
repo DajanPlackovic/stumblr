@@ -3,6 +3,7 @@ import {
   flip,
   shift,
   offset,
+  autoUpdate,
 } from 'https://cdn.jsdelivr.net/npm/@floating-ui/dom@1.6.10/+esm';
 
 // make the token available to ajax
@@ -82,13 +83,15 @@ function buttonAction() {
   $(menu).show().html(loader);
 
   // Positioning logic from FloatingUI, https://floating-ui.com/docs/tutorial
-  computePosition(btn, menu, {
-    placement: 'bottom',
-    middleware: [offset(0), flip(), shift({ padding: 0 })],
-  }).then(({ x, y }) => {
-    Object.assign(menu.style, {
-      left: `${x}px`,
-      top: `${y}px`,
+  const cleanup = autoUpdate(btn, menu, () => {
+    computePosition(btn, menu, {
+      placement: 'bottom',
+      middleware: [offset(0), flip(), shift()],
+    }).then(({ x, y }) => {
+      Object.assign(menu.style, {
+        left: `${x}px`,
+        top: `${y}px`,
+      });
     });
   });
 
@@ -109,6 +112,7 @@ function buttonAction() {
           data: data ? data : $.param({ collection: 'empty' }, true),
           success: () => {
             $(menu).hide();
+            cleanup();
             $(btn).on('click', buttonAction);
           },
           // @TODO: handle errors, show result in toast
