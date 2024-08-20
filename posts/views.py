@@ -90,13 +90,8 @@ def create_collection(request):
 # User Views
 
 
-<<<<<<< HEAD
-def user(request, slug):
-    displayed_user = UserSlug.objects.filter(slug=slug).first().user
-=======
 def user(request, user_id):
     displayed_user = User.objects.filter(pk=user_id).first()
->>>>>>> revert-slug
     posts = displayed_user.posts.all()
     collections = displayed_user.collections.all()
     return render(request, 'posts/user.html', {

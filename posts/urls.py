@@ -11,9 +11,5 @@ urlpatterns = [
     path('collection-menu/<int:post_id>', collection_menu,
          name="collection-menu"),
     path('create-collection', create_collection, name="create-collection"),
-<<<<<<< HEAD
-    path('user/<slug:slug>', user, name="user-profile"),
-=======
     path('user/<int:user_id>', user, name="user-profile"),
->>>>>>> revert-slug
 ]
