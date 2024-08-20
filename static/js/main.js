@@ -216,7 +216,7 @@ $('button[data-action="delete-collection"]').on('click', function (e) {
         url: url,
         data: $('#delete_collection_form').serialize(),
       }).done(() => {
-        // @TODO: just remove the deleted post, instead of reloading
+        // @TODO: just remove the deleted collection, instead of reloading
         window.location.replace('');
       });
     });
