@@ -90,8 +90,8 @@ def create_collection(request):
 # User Views
 
 
-def user(request, username):
-    displayed_user = User.objects.filter(username=username).first()
+def user(request, user_id):
+    displayed_user = User.objects.filter(pk=user_id).first()
     posts = displayed_user.posts.all()
     collections = displayed_user.collections.all()
     return render(request, 'posts/user.html', {
