@@ -14,8 +14,7 @@
   </h2>
   <div class="card-body">
     <div class="meta-data">
-      <div class="author"><a href="{% url 'user-profile' collection.author.slug.slug %}">
-          @{{ collection.author.username }}</a>
+      <div class="author"><a href="{% url 'user-profile' collection.author.id %}">@{{ collection.author.username }}</a>
       </div>
       <div class="date"><strong>Last Update: </strong>
         {{ collection.updated_on|date:"j/m/Y H:i" }}</div>
