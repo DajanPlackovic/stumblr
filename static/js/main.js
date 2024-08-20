@@ -15,7 +15,7 @@ const loader = `<div class="spinner-grow text-primary" role="status">
 
 function updateModal(title, cancelBtn, postBtn) {
   $('#general_modal .modal-title').text(title);
-  $('#general_modal button[data-bs-dismiss]').text(cancelBtn);
+  $('#general_modal .btn-secondary').text(cancelBtn);
   $('#general_modal .btn-primary').text(postBtn);
   $('#general_modal').modal('show');
 }
