@@ -6,7 +6,8 @@ from django.utils.text import slugify
 # Create your models here.
 class Post(models.Model):
     text = models.TextField(max_length=10000)
-    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    author = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="posts")
     reblogged = models.ForeignKey(
         "self", on_delete=models.CASCADE, related_name="reblogs", null=True, blank=True)
     time_posted = models.DateTimeField(auto_now_add=True)

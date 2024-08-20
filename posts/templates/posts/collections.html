@@ -2,19 +2,5 @@
 {% load static %}
 
 {% block content %}
-{% for collection in collections %}
-<div class="card col-md-6 col-lg-4 mx-auto my-2">
-  <!-- @TODO: Modify links in the bootstrap file, not inline like this -->
-  <h2 class="card-header"><a href="{{ collection.slug }}" class="link-primary text-decoration-none">
-      {{ collection.name }}</a>
-  </h2>
-  <div class="card-body">
-    <div class="meta-data">
-      <div class="author"><a href="author_url_goes_here">@{{ collection.author.username }}</a></div>
-      <div class="date"><strong>Last Update: </strong>
-        {{ collection.updated_on|date:"j/m/Y H:i" }}</div>
-    </div>
-  </div>
-</div>
-{% endfor %}
+{% include 'posts/collection_list.html' %}
 {% endblock %}

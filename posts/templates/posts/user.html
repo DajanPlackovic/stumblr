@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>{{ displayed_user.username }}</h1>
+<h2>{{ displayed_user.username }}'s Posts</h2>
+{% include 'posts/post_list.html' %}
+<h2>{{ displayed_user.username }}'s Collections</h2>
+{% include 'posts/collection_list.html' %}
+{% endblock %}

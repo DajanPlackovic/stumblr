@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, JsonResponse
+from django.contrib.auth.models import User
 from .models import Post, Collection
 from .forms import CreatePostForm
 
@@ -85,3 +86,16 @@ def create_collection(request):
     collection = request.user.collections.create(name=name)
     # @TODO: Handle errors
     return JsonResponse({"name": collection.name, "id": collection.id})
+
+# User Views
+
+
+def user(request, username):
+    displayed_user = User.objects.filter(username=username).first()
+    posts = displayed_user.posts.all()
+    collections = displayed_user.collections.all()
+    return render(request, 'posts/user.html', {
+        "displayed_user": displayed_user,
+        "post_list": posts,
+        "collections": collections,
+    })
