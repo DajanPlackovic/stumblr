@@ -21,6 +21,34 @@ function updateModal(title, cancelBtn, postBtn) {
 }
 
 /*=============================================
+=                Error Handling               =
+=============================================*/
+function showErrorOrInfo(text, error) {
+  const container = $('.toast-container');
+  $(container).find('.toast.hide').remove();
+  const toastHtml = document.createElement('div');
+  $(toastHtml)
+    .attr(
+      'class',
+      `toast ${
+        error ? 'bg-danger' : 'bg-info'
+      } d-flex align-items-center justify-content-between`
+    )
+    .attr('role', 'alert')
+    .attr('aria-live', 'assertive')
+    .attr('aria-atomic', 'true')
+    .html(
+      `<div class="toast-body text-white">
+      ${text}
+    </div>
+    <button type="button" class="btn-close btn-close-white me-2" data-bs-dismiss="toast" aria-label="Close"></button> `
+    );
+  $(container).append(toastHtml);
+  const toast = bootstrap.Toast.getOrCreateInstance(toastHtml);
+  toast.show();
+}
+
+/*=============================================
 =                 Action Menu                 =
 =============================================*/
 
