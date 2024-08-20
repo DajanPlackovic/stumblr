@@ -7,12 +7,12 @@
       <div class="date">{{ post.time_posted|date:"j/m/Y H:i" }}</div>
     </div>
     <div class="post__actions d-flex justify-content-between">
-      <!-- <button type="button" class="btn btn-lg btn-danger" data-bs-toggle="popover" data-bs-title="Popover title"
-        data-bs-content="And here's some amazing content. It's very engaging. Right?">Click to toggle popover</button> -->
+      {% if user.is_authenticated %}
       <button tabindex="0" class="btn btn-primary me-2" data-post="{{ post.id }}" data-action="add_to_collection">
         <i class="fa-regular fa-bookmark"></i>
       </button>
       <div class="collection-menu card p-2">Test</div>
+      {% endif %}
       {% if post.author == user %}
       <button class="btn btn-danger" data-post="{{ post.id }}" data-action="delete"><i
           class="fas fa-trash"></i></button>
