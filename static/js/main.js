@@ -24,6 +24,10 @@ function updateModal(title, cancelBtn, postBtn) {
 =                Error Handling               =
 =============================================*/
 function showErrorOrInfo(text, error) {
+  if (!text) {
+    text = 'An error has occurred';
+    error = true;
+  }
   const container = $('.toast-container');
   $(container).find('.toast.hide').remove();
   const toastHtml = document.createElement('div');
@@ -48,22 +52,45 @@ function showErrorOrInfo(text, error) {
   toast.show();
 }
 
+const showError = (text) => showErrorOrInfo(text, true);
+const showInfo = (text) => showErrorOrInfo(text, false);
+
 /*=============================================
 =                 Action Menu                 =
 =============================================*/
 
 $('#create_post_btn').on('click', () => {
   updateModal('Create Post', 'Cancel', 'Post');
+  const url = '/create-post';
+  const form = '#create_post_form';
   $('#general_modal .btn-primary').on('click', () => {
-    $('#general_modal').modal('hide');
-    $.post('/create-post', $('#create_post_form').serialize()).done(() => {
-      window.location.replace('');
+    $.ajax({
+      type: 'POST',
+      url: url,
+      data: $(form).serialize(),
+      success: (data) => {
+        $('#general_modal').modal('hide');
+        // @TODO: if user is already on posts page, insert post instead of reloading
+        window.location.replace('');
+      },
+      error: (data) => {
+        showError(data.text);
+      },
     });
-    // @TODO: if user is already on posts page, insert post instead of reloading
   });
-  $.get('/create-post', (data, status) => {
-    $('#general_modal .modal-body').html(data);
-    // @TODO: Handle errors
+  $.ajax({
+    type: 'GET',
+    url: url,
+    data: $(form).serialize(),
+    beforeSend: () => {
+      $('#general_modal .modal-body').html(loader);
+    },
+    success: (data) => {
+      $('#general_modal .modal-body').html(data);
+    },
+    error: (data) => {
+      showError(data.text);
+    },
   });
 });
 
@@ -83,9 +110,13 @@ $('button[data-action="delete"]').on('click', function (e) {
         type: 'POST',
         url: url,
         data: $('#delete_post_form').serialize(),
-      }).done(() => {
-        // @TODO: just remove the deleted post, instead of reloading
-        window.location.replace('');
+        success: () => {
+          // @TODO: just remove the deleted post, instead of reloading
+          window.location.replace('');
+        },
+        error: (data) => {
+          showError(data.text);
+        },
       });
     });
   $.ajax({
@@ -97,6 +128,9 @@ $('button[data-action="delete"]').on('click', function (e) {
     },
     success: (data) => {
       $('#general_modal .modal-body').html(data);
+    },
+    error: (data) => {
+      showError(data.text);
     },
   });
 });
@@ -143,7 +177,9 @@ function buttonAction() {
             cleanup();
             $(btn).on('click', buttonAction);
           },
-          // @TODO: handle errors, show result in toast
+          error: (data) => {
+            showError(data.text);
+          },
         });
         populated = false;
       }
@@ -223,6 +259,9 @@ function buttonAction() {
         });
       populated = true;
     },
+    error: (data) => {
+      showError(data.text);
+    },
   });
 }
 
@@ -243,9 +282,13 @@ $('button[data-action="delete-collection"]').on('click', function (e) {
         type: 'POST',
         url: url,
         data: $('#delete_collection_form').serialize(),
-      }).done(() => {
-        // @TODO: just remove the deleted collection, instead of reloading
-        window.location.replace('');
+        success: () => {
+          // @TODO: just remove the deleted collection, instead of reloading
+          window.location.replace('');
+        },
+        error: (data) => {
+          showError(data.text);
+        },
       });
     });
   $.ajax({
@@ -257,6 +300,9 @@ $('button[data-action="delete-collection"]').on('click', function (e) {
     },
     success: (data) => {
       $('#general_modal .modal-body').html(data);
+    },
+    error: (data) => {
+      showError(data.text);
     },
   });
 });
