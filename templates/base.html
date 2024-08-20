@@ -57,11 +57,11 @@
   <!-- Floating Action Button like Google Material, taken from https://opensource.propeller.in/components/floating-button -->
   <div class="menu pmd-floating-action" role="navigation">
     {% if user.is_authenticated %}
-    <a href="/collections/"
+    <a href="/user/{{ user.username }}"
       class="pmd-floating-action-btn btn btn-sm pmd-btn-fab pmd-btn-raised pmd-ripple-effect btn-default"
-      data-title="View Collections" id="create_collection_btn">
-      <span class="pmd-floating-hidden">View Collections</span>
-      <i class="fa-regular fa-bookmark"></i>
+      data-title="Go to Profile" id="profile_btn">
+      <span class="pmd-floating-hidden">Go to Profile</span>
+      <i class="fa-regular fa-user"></i>
     </a>
     <a href="javascript:void(0);"
       class="pmd-floating-action-btn btn btn-sm pmd-btn-fab pmd-btn-raised pmd-ripple-effect btn-default"
