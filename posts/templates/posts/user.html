@@ -3,7 +3,15 @@
 {% block content %}
 <h1>{{ displayed_user.username }}</h1>
 <h2>{{ displayed_user.username }}'s Posts</h2>
+{% if post_list.count > 0 %}
 {% include 'posts/post_list.html' %}
+{% else %}
+<p>No posts yet</p>
+{% endif %}
 <h2>{{ displayed_user.username }}'s Collections</h2>
+{% if collections.count > 0 %}
 {% include 'posts/collection_list.html' %}
+{% else %}
+<p>No collections yet</p>
+{% endif %}
 {% endblock %}
