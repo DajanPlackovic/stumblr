@@ -104,7 +104,7 @@ def delete_collection(request, collection_id):
 # User Views
 def user(request, user_id):
     displayed_user = User.objects.filter(pk=user_id).first()
-    posts = displayed_user.posts.all()
+    posts = displayed_user.posts.all().order_by('-time_posted')
     collections = displayed_user.collections.all()
     return render(request, 'posts/user.html', {
         "displayed_user": displayed_user,
