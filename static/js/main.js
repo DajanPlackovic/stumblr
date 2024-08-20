@@ -75,15 +75,11 @@ $('button[data-action="delete"]').on('click', function (e) {
 /*=============================================
 =              Add to Collection              =
 =============================================*/
-$('button[data-action="add_to_collection"]').on('click', function () {
+function buttonAction() {
   const menu = $(this).next()[0];
   const btn = this;
   let populated = false;
-  if ($(menu).hasClass('show')) {
-    $(menu).removeClass('show');
-    return;
-  }
-  $(menu).addClass('show').html(loader);
+  $(menu).show().html(loader);
 
   // Positioning logic from FloatingUI, https://floating-ui.com/docs/tutorial
   computePosition(btn, menu, {
@@ -99,9 +95,10 @@ $('button[data-action="add_to_collection"]').on('click', function () {
   // Hide if clicked away
   $(document).on('click', function (event) {
     if (!(menu.contains(event.target) || btn.contains(event.target))) {
-      $(menu).removeClass('show');
       if (populated) {
         const data = $(menu).find('.collection-list').serialize();
+        $(menu).html(loader);
+        $(btn).off('click');
         $.ajax({
           type: 'POST',
           url: `collection-menu/${$(btn).attr('data-post')}`,
@@ -110,11 +107,15 @@ $('button[data-action="add_to_collection"]').on('click', function () {
           },
           mode: 'same-origin',
           data: data ? data : $.param({ collection: 'empty' }, true),
+          success: () => {
+            $(menu).hide();
+            $(btn).on('click', buttonAction);
+          },
           // @TODO: handle errors, show result in toast
         });
         populated = false;
       }
-      $(this).off('click');
+      $(document).off('click');
       return;
     }
   });
@@ -191,4 +192,6 @@ $('button[data-action="add_to_collection"]').on('click', function () {
       populated = true;
     },
   });
-});
+}
+
+$('button[data-action="add_to_collection"]').on('click', buttonAction);
