@@ -186,3 +186,7 @@
 .collection-menu.show {
   display: block;
 }
+
+.text-larger {
+  font-size: 150%;
+}
