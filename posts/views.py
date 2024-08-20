@@ -67,10 +67,11 @@ def collection_menu(request, post_id):
         for collection in request.user.collections.all():
             collection.posts.remove(post)
         collections = dict(request.POST)["collection"]
-        for id in collections:
-            collection = get_object_or_404(Collection, pk=id)
-            if request.user == collection.author:
-                post.collections.add(collection)
+        if collections[0] != 'empty':
+            for id in collections:
+                collection = get_object_or_404(Collection, pk=id)
+                if request.user == collection.author:
+                    post.collections.add(collection)
         return HttpResponse(status=200)
     else:
         collections = request.user.collections.all()

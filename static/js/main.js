@@ -101,6 +101,7 @@ $('button[data-action="add_to_collection"]').on('click', function () {
     if (!(menu.contains(event.target) || btn.contains(event.target))) {
       $(menu).removeClass('show');
       if (populated) {
+        const data = $(menu).find('.collection-list').serialize();
         $.ajax({
           type: 'POST',
           url: `collection-menu/${$(btn).attr('data-post')}`,
@@ -108,10 +109,12 @@ $('button[data-action="add_to_collection"]').on('click', function () {
             'X-CSRFToken': csrftoken,
           },
           mode: 'same-origin',
-          data: $(menu).find('.collection-list').serialize(),
+          data: data ? data : $.param({ collection: 'empty' }, true),
           // @TODO: handle errors, show result in toast
         });
+        populated = false;
       }
+      $(this).off('click');
       return;
     }
   });
