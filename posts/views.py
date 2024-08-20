@@ -87,6 +87,19 @@ def create_collection(request):
     # @TODO: Handle errors
     return JsonResponse({"name": collection.name, "id": collection.id})
 
+
+def delete_collection(request, collection_id):
+    collection = get_object_or_404(Collection, pk=collection_id)
+
+    if collection.author == request.user:
+        if request.method == "POST":
+            collection.delete()
+            return HttpResponse(status=200)
+        else:
+            return render(request, 'posts/delete_collection_form.html', {
+                "collection": collection
+            })
+
 # User Views
 
 

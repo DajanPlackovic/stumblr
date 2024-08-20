@@ -45,7 +45,7 @@ $('#create_post_btn').on('click', () => {
 
 $('button[data-action="delete"]').on('click', function (e) {
   e.preventDefault();
-  const url = `delete-post/${$(this).attr('data-post')}`;
+  const url = `/delete-post/${$(this).attr('data-post')}`;
   updateModal('Delete Post', 'Cancel', 'Delete');
   $('#general_modal .btn-primary')
     .addClass('btn-danger')
@@ -199,3 +199,36 @@ function buttonAction() {
 }
 
 $('button[data-action="add_to_collection"]').on('click', buttonAction);
+
+/*=============================================
+=              Delete Collection              =
+=============================================*/
+$('button[data-action="delete-collection"]').on('click', function (e) {
+  e.preventDefault();
+  const url = `/delete-collection/${$(this).attr('data-post')}`;
+  updateModal('Delete Collection', 'Cancel', 'Delete');
+  $('#general_modal .btn-primary')
+    .addClass('btn-danger')
+    .on('click', () => {
+      $('#general_modal').modal('hide');
+      $.ajax({
+        type: 'POST',
+        url: url,
+        data: $('#delete_collection_form').serialize(),
+      }).done(() => {
+        // @TODO: just remove the deleted post, instead of reloading
+        window.location.replace('');
+      });
+    });
+  $.ajax({
+    type: 'GET',
+    url: url,
+    data: $('#delete_post_form').serialize(),
+    beforeSend: () => {
+      $('#general_modal .modal-body').html(loader);
+    },
+    success: (data) => {
+      $('#general_modal .modal-body').html(data);
+    },
+  });
+});
