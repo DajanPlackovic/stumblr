@@ -57,7 +57,7 @@
   <!-- Floating Action Button like Google Material, taken from https://opensource.propeller.in/components/floating-button -->
   <div class="menu pmd-floating-action" role="navigation">
     {% if user.is_authenticated %}
-    <a href="/user/{{ user.username }}"
+    <a href="/user/{{ user.id }}"
       class="pmd-floating-action-btn btn btn-sm pmd-btn-fab pmd-btn-raised pmd-ripple-effect btn-default"
       data-title="Go to Profile" id="profile_btn">
       <span class="pmd-floating-hidden">Go to Profile</span>
