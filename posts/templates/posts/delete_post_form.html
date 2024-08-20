@@ -6,7 +6,8 @@
       <div class="col-9">
         <div class="meta-data">
           <!-- @TODO: add author url logic when user page is created -->
-          <div class="author"><a href="author_url_goes_here">@{{ post.author.username }}</a></div>
+          <div class="author"><span href="#" class="btn-link">@{{ post.author.username }}</span>
+          </div>
           <div class="date">{{ post.time_posted|date:"j/m/Y H:i" }}</div>
         </div>
       </div>
