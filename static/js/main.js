@@ -28,12 +28,12 @@ $('#create_post_btn').on('click', () => {
   updateModal('Create Post', 'Cancel', 'Post');
   $('#general_modal .btn-primary').on('click', () => {
     $('#general_modal').modal('hide');
-    $.post('create-post', $('#create_post_form').serialize()).done(() => {
+    $.post('/create-post', $('#create_post_form').serialize()).done(() => {
       window.location.replace('');
     });
     // @TODO: if user is already on posts page, insert post instead of reloading
   });
-  $.get('create-post', (data, status) => {
+  $.get('/create-post', (data, status) => {
     $('#general_modal .modal-body').html(data);
     // @TODO: Handle errors
   });
@@ -104,7 +104,7 @@ function buttonAction() {
         $(btn).off('click');
         $.ajax({
           type: 'POST',
-          url: `collection-menu/${$(btn).attr('data-post')}`,
+          url: `/collection-menu/${$(btn).attr('data-post')}`,
           headers: {
             'X-CSRFToken': csrftoken,
           },
@@ -126,7 +126,7 @@ function buttonAction() {
 
   $.ajax({
     type: 'GET',
-    url: `collection-menu/${$(btn).attr('data-post')}`,
+    url: `/collection-menu/${$(btn).attr('data-post')}`,
     success: (data) => {
       let htmlOut = '<form class="collection-list"><ul class="list-group">';
       const { response } = data;
