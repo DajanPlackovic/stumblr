@@ -254,6 +254,9 @@ function buttonAction() {
                   .find('button')
                   .show();
               },
+              error: (data) => {
+                showError(data.responseJSON.text);
+              },
             });
           });
         });

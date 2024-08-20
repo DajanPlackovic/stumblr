@@ -83,7 +83,13 @@ def collection_menu(request, post_id):
 
 def create_collection(request):
     name = dict(request.POST)["name"][0]
-    collection = request.user.collections.create(name=name)
+    try:
+        collection = request.user.collections.create(name=name)
+    except Exception as e:
+        s = str(e)
+        if "duplicate key value" in s:
+            return JsonResponse({"text": f"Cannot create collection with name {name}\nCollection already exists"}, status=500)
+        return HttpResponse(status=500)
     # @TODO: Handle errors
     return JsonResponse({"name": collection.name, "id": collection.id})
 
