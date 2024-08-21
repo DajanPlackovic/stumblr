@@ -93,6 +93,23 @@
   </div>
   <!-- Toast container for errors and messages -->
   <div class="toast-container position-fixed bottom-0 start-0 p-2"></div>
+  <!-- Loader animation template -->
+  <template id="loader">
+    <div class="spinner-grow text-primary" role="status">
+      <span class="sr-only">Loading...</span>
+    </div>
+  </template>
+  <!-- Toast template for errors and info, requires:
+    - .toast: bg-danger or bg-info, depending on if error
+    - .toast-body: innerText 
+  -->
+  <template id="toast">
+    <div class="toast d-flex align-items-center justify-content-between">
+      <div class="toast-body text-white">
+      </div>
+      <button type="button" class="btn-close btn-close-white me-2" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+  </template>
   <script src="https://cdn.jsdelivr.net/npm/@floating-ui/core@1.6.7"></script>
   <script src="https://cdn.jsdelivr.net/npm/@floating-ui/dom@1.6.10"></script>
   <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>

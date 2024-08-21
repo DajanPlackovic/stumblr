@@ -31,3 +31,34 @@
   </div>
 </div>
 {% endfor %}
+<!-- Menu Wrapper Template, static -->
+<template id="collection-menu__container">
+  <form class="collection-list">
+    <ul class="list-group">
+    </ul>
+  </form>
+  <form class="add-collection">
+    <button type="button" class="btn btn-primary w-100 mt-2" aria-label="create new Collection">
+      <i class="fas fa-plus"></i>
+    </button>
+    <input class="form-control mt-2" type="text" placeholder="New Collection Name" aria-label="Enter new
+            Collection name and press enter to create" required>
+  </form>
+</template>
+
+<!-- Menu Item Template, requires:
+  - input:
+    - id:  col-{collection.id}
+    - value: {collection.id}
+    - aria-label: add post to {collection.name}
+    - checked: if collection.checked
+  - label:
+    - for: col-{collection.id}
+    - innerText: {collection.name}
+-->
+<template id="collection-menu__item">
+  <li class="list-group-item d-flex justify-content-between">
+    <input type="checkbox" class="btn-check" autocomplete="off" name="collection">
+    <label class="btn btn-primary w-100 text-center"></label>
+  </li>
+</template>

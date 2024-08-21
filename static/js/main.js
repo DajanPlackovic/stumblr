@@ -9,15 +9,20 @@ import {
 // make the token available to ajax
 const csrftoken = Cookies.get('csrftoken');
 
-const loader = `<div class="spinner-grow text-primary" role="status">
-  <span class="sr-only">Loading...</span>
-</div>`;
+const loader = $('#loader').html();
 
 function updateModal(title, cancelBtn, postBtn) {
-  $('#general_modal .modal-title').text(title);
-  $('#general_modal .btn-secondary').text(cancelBtn);
-  $('#general_modal .btn-primary').text(postBtn);
-  $('#general_modal').modal('show');
+  $('#general_modal')
+    .find('.modal-title')
+    .text(title)
+    .end()
+    .find('btn-secondary')
+    .text(cancelBtn)
+    .end()
+    .find('.btn-primary')
+    .text(postBtn)
+    .end()
+    .modal('show');
 }
 
 /*=============================================
@@ -25,33 +30,26 @@ function updateModal(title, cancelBtn, postBtn) {
 =============================================*/
 function showErrorOrInfo(response, error) {
   let text;
+  let className = error ? 'bg-danger' : 'bg-info';
   if (response.responseJSON?.text) {
     text = response.responseJSON.text;
   } else {
     text = 'An error has occurred';
-    error = true;
+    className = 'bg-danger';
   }
   const container = $('.toast-container');
+  // clean up toasts that were already hidden
   $(container).find('.toast.hide').remove();
   const toastHtml = document.createElement('div');
   $(toastHtml)
-    .attr(
-      'class',
-      `toast ${
-        error ? 'bg-danger' : 'bg-info'
-      } d-flex align-items-center justify-content-between`
-    )
-    .attr('role', 'alert')
-    .attr('aria-live', 'assertive')
-    .attr('aria-atomic', 'true')
-    .html(
-      `<div class="toast-body text-white">
-      ${text}
-    </div>
-    <button type="button" class="btn-close btn-close-white me-2" data-bs-dismiss="toast" aria-label="Close"></button> `
-    );
-  $(container).append(toastHtml);
-  const toast = bootstrap.Toast.getOrCreateInstance(toastHtml);
+    .html($('template#toast').html())
+    .find('.toast')
+    .addClass(className)
+    .find('.toast-body')
+    .text(text);
+  const toastOut = $(toastHtml).find('.toast');
+  $(container).append(toastOut);
+  const toast = bootstrap.Toast.getOrCreateInstance(toastOut);
   toast.show();
 }
 
@@ -153,31 +151,32 @@ function floatMenu(btn, menu) {
   });
 }
 
+function makeMenuItem(collection) {
+  return $($('template#collection-menu__item').html())
+    .find('input')
+    .attr({
+      id: `col-${collection.id}`,
+      value: collection.id,
+      'aria-label': `add post to ${collection.name}`,
+      checked: collection.checked,
+    })
+    .end()
+    .find('label')
+    .attr('for', `col-${collection.id}`)
+    .text(collection.name)
+    .end();
+}
+
 function makeMenuHtml(collections) {
-  let htmlOut = '<form class="collection-list"><ul class="list-group">';
-  for (const collection of collections)
-    htmlOut += `<li class="list-group-item d-flex justify-content-between">
-<input type="checkbox" class="btn-check" id="col-${
-      collection.id
-    }" autocomplete="off" value="${collection.id}" aria-label="add post to ${
-      collection.name
-    }" ${collection.checked ? 'checked' : ''} name="collection">
-<label class="btn btn-primary w-100 text-center" for="col-${collection.id}">${
-      collection.name
-    }</label>
-    </li>`;
-  htmlOut += `</ul></form>
-  <form class="add-collection">
-    <button type="button" class="btn btn-primary w-100 mt-2"
-    aria-label="create new Collection">
-      <i class="fas fa-plus"></i>
-    </button>
-          <input class="form-control mt-2" type="text"
-          placeholder="New Collection Name" aria-label="Enter new
-          Collection name and press enter to create" required>
-  </form>
-      `;
-  return htmlOut;
+  const container = document.createElement('div');
+  $(container)
+    .html($('template#collection-menu__container').html())
+    .find('.collection-list');
+  for (const collection of collections) {
+    const item = makeMenuItem(collection);
+    $(container).find('.collection-list').append(item);
+  }
+  return $(container).html();
 }
 function buttonAction() {
   const btn = this;
@@ -238,16 +237,8 @@ function buttonAction() {
         const success = (collection) => {
           $(menu)
             .find('.collection-list')
-            .append(
-              `<li class="list-group-item d-flex justify-content-between">
-<input type="checkbox" class="btn-check" id="col-${collection.id}"
-autocomplete="off" value="${collection.id}" aria-label="add post
-to ${collection.name}" name="collection" checked>
-<label class="btn btn-primary w-100 text-center"
-for="col-${collection.id}">${collection.name}</label>
-</li>`
-            );
-          $(menu)
+            .append(makeMenuItem(collection))
+            .end()
             .find('.add-collection input')
             .hide()
             .parent()
@@ -271,32 +262,18 @@ $('button[data-action="delete-collection"]').on('click', function (e) {
   $('#general_modal .btn-primary')
     .addClass('btn-danger')
     .on('click', () => {
-      $('#general_modal').modal('hide');
-      $.ajax({
-        type: 'POST',
-        url: url,
-        data: $('#delete_collection_form').serialize(),
-        success: () => {
-          // @TODO: just remove the deleted collection, instead of reloading
-          window.location.replace('');
-        },
-        error: (data) => {
-          showError(data.text);
-        },
-      });
+      const data = $('#delete_collection_form').serialize();
+      const success = () => {
+        // @TODO: just remove the deleted collection, instead of reloading
+        window.location.replace('');
+      };
+      ajaxPost({ url, data, success });
     });
-  $.ajax({
-    type: 'GET',
-    url: url,
-    data: $('#delete_post_form').serialize(),
-    beforeSend: () => {
-      $('#general_modal .modal-body').html(loader);
-    },
-    success: (data) => {
-      $('#general_modal .modal-body').html(data);
-    },
-    error: (data) => {
-      showError(data.text);
-    },
-  });
+  const beforeSend = () => {
+    $('#general_modal .modal-body').html(loader);
+  };
+  const success = (data) => {
+    $('#general_modal .modal-body').html(data);
+  };
+  ajaxGet({ url, beforeSend, success });
 });
