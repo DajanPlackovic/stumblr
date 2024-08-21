@@ -217,7 +217,6 @@ function buttonAction() {
     const { response } = data;
     const menuHtml = makeMenuHtml(response);
     $(menu).html(menuHtml).find('.add-collection input').hide();
-    debugger;
 
     /*----------  Add collection logic  ----------*/
     $(menu).find('.add-collection button').on('click', addCollection);
