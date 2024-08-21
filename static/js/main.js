@@ -189,20 +189,18 @@ function buttonAction() {
   $(menu).show().html(loader);
 
   const cleanup = floatMenu(btn, menu);
-  hideAndPostOnClose();
 
   ajaxGet({ url, success: buildMenu });
 
   function hideAndPostOnClose() {
     $(document).on('click', function (event) {
-      if (!(menu.contains(event.target) || btn.contains(event.target))) {
+      if (!menu.contains(event.target)) {
         if (populated) {
           const formData = $(menu).find('.collection-list').serialize();
           const data = formData
             ? formData
             : $.param({ collection: 'empty' }, true);
           $(menu).html(loader);
-          $(btn).off('click');
           const success = () => {
             $(menu).hide();
             cleanup(); // stop tracking menu position
@@ -222,6 +220,8 @@ function buttonAction() {
 
     /*----------  Add collection logic  ----------*/
     $(menu).find('.add-collection button').on('click', addCollection);
+    $(btn).off('click');
+    hideAndPostOnClose();
     populated = true;
   }
   function addCollection() {
