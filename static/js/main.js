@@ -153,7 +153,7 @@ function floatMenu(btn, menu) {
 
 function makeMenuItem(collection) {
   return $($('template#collection-menu__item').html())
-    .find('input')
+    .find('input[type="checkbox"]')
     .attr({
       id: `col-${collection.id}`,
       value: collection.id,
@@ -165,7 +165,7 @@ function makeMenuItem(collection) {
     .attr('for', `col-${collection.id}`)
     .text(collection.name)
     .end()
-    .find('button[data-action="edit_post"]')
+    .find('button[data-action="edit_collection"]')
     .attr('data-post', collection.id)
     .end();
 }
@@ -192,6 +192,32 @@ function buttonAction() {
 
   ajaxGet({ url, success: buildMenu });
 
+  function buildMenu(data) {
+    const { response } = data;
+    const menuHtml = makeMenuHtml(response);
+    $(menu).html(menuHtml).find('.add-collection input').hide();
+
+    /*----------  Add collection logic  ----------*/
+    $(menu).find('.add-collection button').on('click', addCollection);
+    $(btn).off('click');
+
+    hideAndPostOnClose();
+    registerEditEvent();
+    populated = true;
+  }
+  function buildMenu(data) {
+    const { response } = data;
+    const menuHtml = makeMenuHtml(response);
+    $(menu).html(menuHtml).find('.add-collection input').hide();
+
+    /*----------  Add collection logic  ----------*/
+    $(menu).find('.add-collection button').on('click', addCollection);
+    $(btn).off('click');
+    hideAndPostOnClose();
+    registerEditEvent();
+    populated = true;
+  }
+
   function hideAndPostOnClose() {
     $(document).on('click', function (event) {
       if (!menu.contains(event.target)) {
@@ -212,17 +238,6 @@ function buttonAction() {
         $(document).off('click');
       }
     });
-  }
-  function buildMenu(data) {
-    const { response } = data;
-    const menuHtml = makeMenuHtml(response);
-    $(menu).html(menuHtml).find('.add-collection input').hide();
-
-    /*----------  Add collection logic  ----------*/
-    $(menu).find('.add-collection button').on('click', addCollection);
-    $(btn).off('click');
-    hideAndPostOnClose();
-    populated = true;
   }
   function addCollection() {
     $('.add-collection')
@@ -249,6 +264,39 @@ function buttonAction() {
             .show();
         };
         ajaxPost({ url, data: { name }, success });
+      });
+  }
+  function registerEditEvent() {
+    $(menu)
+      .find('input[type="text"]')
+      .hide()
+      .end()
+      .find('button[data-action="edit_collection"]')
+      .on('click', editCollectionName);
+  }
+
+  function editCollectionName(clickEvent) {
+    const editBtn = clickEvent.currentTarget;
+    const input = $(editBtn).parents('li').find('input[type="text"]');
+    $(editBtn).parents('.list-group-item > .row').hide();
+    $(input)
+      .show()
+      .focus()
+      .on('keypress', (e) => {
+        if (e.key == 'Enter') {
+          const id = $(editBtn).attr('data-post');
+          const name = $(input).val();
+          const url = `edit-collection/${id}`;
+          const success = () => {
+            $(input).hide();
+            $(editBtn)
+              .parents('.list-group-item > .row')
+              .show()
+              .find('label')
+              .text(name);
+          };
+          ajaxPost({ url, data: { name }, success });
+        }
       });
   }
 }

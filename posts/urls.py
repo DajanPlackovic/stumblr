@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import index, create_post, delete_post, collection_list, individual_collection, collection_menu, create_collection, user, delete_collection
+from .views import index, create_post, delete_post, collection_list, individual_collection, collection_menu, create_collection, user, delete_collection, edit_collection
 
 urlpatterns = [
     path('', index, name="index"),
@@ -13,5 +13,7 @@ urlpatterns = [
     path('create-collection', create_collection, name="create-collection"),
     path('delete-collection/<int:collection_id>',
          delete_collection, name="delete-collection"),
+    path('edit-collection/<int:id>',
+         edit_collection, name="edit-collection"),
     path('user/<int:user_id>', user, name="user-profile"),
 ]

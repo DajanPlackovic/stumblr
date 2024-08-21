@@ -132,7 +132,7 @@ def collection_menu(request, post_id):
                     post.collections.add(collection)
         return HttpResponse(status=200)
     else:
-        collections = request.user.collections.all()
+        collections = request.user.collections.all().order_by('name')
         response = [{"name": collection.name, "id": collection.id,
                     "checked": collection.posts.filter(id=post_id).count() > 0} for collection in collections]
         return JsonResponse({"response": response})
@@ -179,7 +179,23 @@ def delete_collection(request, collection_id):
             })
 
 
+def edit_collection(request, id):
+    print(request.POST)
+    name = dict(request.POST)["name"][0]
+    collection = Collection.objects.get(id=id)
+    try:
+        collection.name = name
+        collection.save()
+        return HttpResponse(status=200)
+    except Exception as e:
+        s = str(e)
+        if "duplicate key value" in s:
+            return JsonResponse({"text": f"Cannot rename collection to {name}\nCollection already exists"}, status=500)
+        return HttpResponse(status=500)
+
 # User Views
+
+
 def user(request, user_id):
     """
     Shows a user's profile page with their posts and collections.
