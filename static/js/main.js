@@ -164,6 +164,9 @@ function makeMenuItem(collection) {
     .find('label')
     .attr('for', `col-${collection.id}`)
     .text(collection.name)
+    .end()
+    .find('button[data-action="edit_post"]')
+    .attr('data-post', collection.id)
     .end();
 }
 
@@ -174,7 +177,7 @@ function makeMenuHtml(collections) {
     .find('.collection-list');
   for (const collection of collections) {
     const item = makeMenuItem(collection);
-    $(container).find('.collection-list').append(item);
+    $(container).find('.collection-list .list-group').append(item);
   }
   return $(container).html();
 }

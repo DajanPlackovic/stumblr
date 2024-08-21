@@ -190,3 +190,9 @@
 .text-larger {
   font-size: 150%;
 }
+
+.overflow-ellipsis {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}

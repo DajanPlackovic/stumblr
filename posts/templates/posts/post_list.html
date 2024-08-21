@@ -57,8 +57,18 @@
     - innerText: {collection.name}
 -->
 <template id="collection-menu__item">
-  <li class="list-group-item d-flex justify-content-between">
-    <input type="checkbox" class="btn-check" autocomplete="off" name="collection">
-    <label class="btn btn-primary w-100 text-center"></label>
+  <li class="list-group-item d-flex justify-content-between pe-0">
+    <div class="row w-100">
+      <div class="col-9">
+        <input type="checkbox" class="btn-check" autocomplete="off" name="collection">
+        <label class="btn btn-primary w-100 text-center w-100 overflow-ellipsis">
+        </label>
+      </div>
+      <div class="col-3">
+        <button type="button" class="btn btn-primary w-100" data-action="edit_post">
+          <i class="fas fa-pen"></i>
+        </button>
+      </div>
+    </div>
   </li>
 </template>
