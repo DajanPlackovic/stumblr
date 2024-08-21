@@ -133,6 +133,30 @@ $('button[data-action="delete"]').on('click', function (e) {
   ajaxGet({ url, beforeSend, success });
 });
 
+$('button[data-action="edit"]').on('click', function (e) {
+  e.preventDefault();
+  const url = `/edit-post/${$(this).attr('data-post')}`;
+  updateModal('Edit Post', 'Cancel', 'Post');
+  $('#general_modal .btn-primary').on('click', () => {
+    const newText = $('#create_post_form textarea').val();
+    console.log(newText);
+    const data = { text: newText };
+    const success = () => {
+      $('#general_modal').modal('hide');
+      // @TODO: just change the edited post, instead of reloading
+      window.location.replace('');
+    };
+    ajaxPost({ url, data, success });
+  });
+  const beforeSend = () => {
+    $('#general_modal .modal-body').html(loader);
+  };
+  const success = (data) => {
+    $('#general_modal .modal-body').html(data);
+  };
+  ajaxGet({ url, beforeSend, success });
+});
+
 /*=============================================
 =              Add to Collection              =
 =============================================*/

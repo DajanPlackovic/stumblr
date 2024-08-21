@@ -51,6 +51,25 @@ def create_post(request):
         })
 
 
+def edit_post(request, post_id):
+    post = Post.objects.get(id=post_id)
+    if request.method == "POST":
+        print(request.POST)
+        text = dict(request.POST)["text"][0]
+        if request.user == post.author:
+            post.text = text
+            try:
+                post.save()
+                return HttpResponse(status=200)
+            except Exception as e:
+                return HttpResponse(status=500)
+    else:
+        create_post_form = CreatePostForm({"text": post.text})
+        return render(request, 'posts/create_post_form.html', {
+            "create_post_form": create_post_form,
+        })
+
+
 def delete_post(request, post_id):
     """
     Deletes a post for the current user.
