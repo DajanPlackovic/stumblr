@@ -1,8 +1,9 @@
 from django.urls import path
-from .views import index, create_post, delete_post, collection_list, individual_collection, collection_menu, create_collection, user, delete_collection, edit_collection, edit_post
+from .views import index, create_post, delete_post, collection_list, individual_collection, collection_menu, create_collection, user, delete_collection, edit_collection, edit_post, post_list
 
 urlpatterns = [
     path('', index, name="index"),
+    path('post-list', post_list, name="post-list"),
     path('create-post', create_post, name="create-post"),
     path('edit-post/<int:post_id>', edit_post, name="edit-post"),
     path('delete-post/<int:post_id>', delete_post, name="delete-post"),

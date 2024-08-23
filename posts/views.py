@@ -26,6 +26,17 @@ def index(request):
     })
 
 
+def post_list(request):
+    posts = Post.objects.all().order_by('-time_posted')
+    paginator = Paginator(posts, 16)
+
+    page_number = request.GET.get("page")
+    post_list = paginator.get_page(page_number)
+    return render(request, 'posts/post_list.html', {
+        "post_list": post_list
+    })
+
+
 def create_post(request):
     # @TODO: add error handling
     """
