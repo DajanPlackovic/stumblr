@@ -19,22 +19,35 @@ def index(request):
     posts = Post.objects.all().order_by('-time_posted')
     paginator = Paginator(posts, 16)
 
-    page_number = request.GET.get("page")
-    post_list = paginator.get_page(page_number)
+    post_list = paginator.get_page(1)
     return render(request, 'posts/index.html', {
         "post_list": post_list
     })
 
 
-def post_list(request):
-    posts = Post.objects.all().order_by('-time_posted')
+def post_list(request, posts):
     paginator = Paginator(posts, 16)
 
     page_number = request.GET.get("page")
     post_list = paginator.get_page(page_number)
     return render(request, 'posts/post_list.html', {
-        "post_list": post_list
+        "post_list": post_list,
     })
+
+
+def post_list_index(request):
+    posts = Post.objects.all()
+    return post_list(request, posts)
+
+
+def post_list_user(request, user_id):
+    posts = Post.objects.filter(author_id=user_id)
+    return post_list(request, posts)
+
+
+def post_list_collection(request, slug):
+    posts = Collection.objects.get(slug=slug).posts.all()
+    return post_list(request, posts)
 
 
 def create_post(request):

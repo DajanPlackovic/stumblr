@@ -360,15 +360,17 @@ $('button[data-action="delete-collection"]').on('click', function (e) {
 =               Infinite Scroll               =
 =============================================*/
 
-$(document).on('scroll', () => {
-  const scrollMarker = $('.scroll').get(0);
-  const rect = scrollMarker.getBoundingClientRect();
-  if (rect.top < document.documentElement.clientHeight + 500) {
-    $(scrollMarker).remove();
-    const url = `/post-list?page=${$(scrollMarker).attr('data-page')}`;
-    const success = (data) => {
-      $('#main_content').append(data);
-    };
-    ajaxGet({ url, success });
-  }
-});
+if ($('.scroll').attr('data-page')) {
+  $(document).on('scroll', () => {
+    const scrollMarker = $('.scroll').get(0);
+    const rect = scrollMarker.getBoundingClientRect();
+    if (rect.top < document.documentElement.clientHeight + 500) {
+      $(scrollMarker).remove();
+      const url = `post-list?page=${$(scrollMarker).attr('data-page')}`;
+      const success = (data) => {
+        $('#main_content').append(data);
+      };
+      ajaxGet({ url, success });
+    }
+  });
+}
