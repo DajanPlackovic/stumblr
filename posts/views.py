@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, JsonResponse
 from django.contrib.auth.models import User
+from django.core.paginator import Paginator
 from .models import Post, Collection, UserSlug
 from .forms import CreatePostForm
 
@@ -15,7 +16,11 @@ def index(request):
 
     :return: HttpResponse: The rendered index.html template with the post_list context variable.
     """
-    post_list = Post.objects.all().order_by('-time_posted')
+    posts = Post.objects.all().order_by('-time_posted')
+    paginator = Paginator(posts, 16)
+
+    page_number = request.GET.get("page")
+    post_list = paginator.get_page(page_number)
     return render(request, 'posts/index.html', {
         "post_list": post_list
     })
