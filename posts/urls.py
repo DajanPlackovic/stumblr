@@ -1,5 +1,5 @@
 from django.urls import path, include
-from .views import index, create_post, delete_post, collection_list, individual_collection, collection_menu, create_collection, user, delete_collection, edit_collection, edit_post, post_list_index, post_list_user, post_list_collection
+from .views import index, create_post, delete_post, collections, individual_collection, collection_menu, create_collection, user, delete_collection, edit_collection, edit_post, post_list_index, post_list_user, post_list_collection, collection_list_all, collection_list_user
 
 urlpatterns = [
     path('', include(
@@ -11,7 +11,13 @@ urlpatterns = [
     path('create-post', create_post, name="create-post"),
     path('edit-post/<int:post_id>', edit_post, name="edit-post"),
     path('delete-post/<int:post_id>', delete_post, name="delete-post"),
-    path('collections/', collection_list, name="collection-list"),
+    path('collections/', include(
+        [
+            path('', collections, name="collections"),
+            path('collection-list', collection_list_all,
+                 name="collection-list-all")
+        ]
+    )),
     path('collections/<slug:slug>/', include(
         [
             path('', individual_collection, name="individual-collection"),
@@ -30,6 +36,8 @@ urlpatterns = [
         [
             path('', user, name="user-profile"),
             path('post-list', post_list_user, name="post-list-user"),
+            path('collection-list', collection_list_user,
+                 name="collection-list-user")
         ]
     )),
 ]

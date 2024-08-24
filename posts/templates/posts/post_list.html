@@ -37,4 +37,6 @@
   </div>
 </div>
 {% endfor %}
-<div class="scroll w-100" data-page="{{ post_list.next_page_number }}"></div>
+{% if post_list.has_next %}
+<div class="scroll w-100" data-page="{{ post_list.next_page_number }}" data-type="posts"></div>
+{% endif %}

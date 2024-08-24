@@ -9,19 +9,19 @@ class Command(BaseCommand):
     help = "Creates test data"
 
     def handle(self, *args, **options):
-        # with open('mockdata/usernames.csv', 'r') as file:
-        #     reader = csv.DictReader(file)
-        #     for row in reader:
-        #         User.objects.create_user(username=row["username"])
-        # with open('mockdata/posts.csv', 'r') as file:
-        #     reader = csv.DictReader(file)
-        #     for row in reader:
-        #         author = choice(User.objects.all())
-        #         Post.objects.create(
-        #             text=row["text"], author=author)
+        with open('mockdata/usernames.csv', 'r') as file:
+            reader = csv.DictReader(file)
+            for row in reader:
+                User.objects.create_user(username=row["username"])
+        all_users = list(User.objects.all())
+        with open('mockdata/posts.csv', 'r') as file:
+            reader = csv.DictReader(file)
+            for row in reader:
+                author = choice(User.objects.all())
+                Post.objects.create(
+                    text=row["text"], author=author)
+        all_posts = list(Post.objects.all())
         with open('mockdata/collections.csv', 'r') as file:
-            all_posts = list(Post.objects.all())
-            all_users = list(User.objects.all())
             reader = csv.DictReader(file)
             for row in reader:
                 author = choice(all_users)

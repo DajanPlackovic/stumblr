@@ -83,7 +83,6 @@ def create_post(request):
 def edit_post(request, post_id):
     post = Post.objects.get(id=post_id)
     if request.method == "POST":
-        print(request.POST)
         text = dict(request.POST)["text"][0]
         if request.user == post.author:
             post.text = text
@@ -121,17 +120,40 @@ def delete_post(request, post_id):
 
 
 # Collection Views
-def collection_list(request):
+def collections(request):
     """
     Renders a page with a list of all collections.
 
     :param request: The HTTP request object.
     :return: A rendered HTML page with the list of collections.
     """
-    collections = Collection.objects.all()
+    all_collections = Collection.objects.all().order_by('-updated_on')
+    paginator = Paginator(all_collections, 16)
+    collections = paginator.get_page(1)
+
     return render(request, 'posts/collections.html', {
         "collections": collections
     })
+
+
+def collection_list(request, collections):
+    paginator = Paginator(collections, 16)
+
+    page_number = request.GET.get("page")
+    col_list = paginator.get_page(page_number)
+    return render(request, 'posts/collection_list.html', {
+        "collections": col_list,
+    })
+
+
+def collection_list_all(request):
+    collections = Collection.objects.all()
+    return collection_list(request, collections)
+
+
+def collection_list_user(request, user_id):
+    collections = Collection.objects.filter(author_id=user_id)
+    return collection_list(request, collections)
 
 
 def individual_collection(request, slug):
@@ -228,7 +250,6 @@ def delete_collection(request, collection_id):
 
 
 def edit_collection(request, id):
-    print(request.POST)
     name = dict(request.POST)["name"][0]
     collection = Collection.objects.get(id=id)
     try:
@@ -252,11 +273,18 @@ def user(request, user_id):
     :param user_id: The id of the user whose profile is shown.
     :return: A rendered HTML page with the user's data.
     """
-    displayed_user = User.objects.filter(pk=user_id).first()
-    posts = displayed_user.posts.all().order_by('-time_posted')
-    collections = displayed_user.collections.all()
+    displayed_user = User.objects.get(id=user_id)
+
+    # all_posts = displayed_user.posts.all().order_by('-time_posted')
+    # posts_paginator = Paginator(all_posts, 16)
+    # posts = posts_paginator.get_page(1)
+
+    # all_collections = displayed_user.collections.all().order_by('-updated_on')
+    # collections_paginator = Paginator(all_collections, 16)
+    # collections = collections_paginator.get_page(1)
+
     return render(request, 'posts/user.html', {
         "displayed_user": displayed_user,
-        "post_list": posts,
-        "collections": collections,
+        # "post_list": posts,
+        # "collections": collections,
     })

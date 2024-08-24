@@ -360,17 +360,23 @@ $('button[data-action="delete-collection"]').on('click', function (e) {
 =               Infinite Scroll               =
 =============================================*/
 
+function scroll(scrollMarker, url) {
+  const rect = scrollMarker.getBoundingClientRect();
+  url += `?page=${$(scrollMarker).attr('data-page')}`;
+  if (rect.top < document.documentElement.clientHeight + 500) {
+    $(scrollMarker).remove();
+    const success = (data) => {
+      $('#main_content').append(data);
+    };
+    ajaxGet({ url, success });
+  }
+}
+
 if ($('.scroll').attr('data-page')) {
   $(document).on('scroll', () => {
-    const scrollMarker = $('.scroll').get(0);
-    const rect = scrollMarker.getBoundingClientRect();
-    if (rect.top < document.documentElement.clientHeight + 500) {
-      $(scrollMarker).remove();
-      const url = `post-list?page=${$(scrollMarker).attr('data-page')}`;
-      const success = (data) => {
-        $('#main_content').append(data);
-      };
-      ajaxGet({ url, success });
-    }
+    const scrollPosts = $('.scroll[data-type="posts"]').get(0);
+    const scrollCollections = $('.scroll[data-type="collections"]').get(0);
+    if (scrollPosts) scroll(scrollPosts, 'post-list');
+    if (scrollCollections) scroll(scrollCollections, 'collection-list');
   });
 }
