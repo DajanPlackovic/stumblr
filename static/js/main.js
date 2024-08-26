@@ -363,7 +363,7 @@ $('button[data-action="delete-collection"]').on('click', function (e) {
 function scroll(scrollMarker, url) {
   const rect = scrollMarker.getBoundingClientRect();
   url += `?page=${$(scrollMarker).attr('data-page')}`;
-  if (rect.top < document.documentElement.clientHeight + 500) {
+  if (rect.top < document.documentElement.clientHeight + 1000) {
     $(scrollMarker).remove();
     const success = (data) => {
       $('#main_content').append(data);
