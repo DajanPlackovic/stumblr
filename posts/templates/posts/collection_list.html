@@ -22,4 +22,6 @@
   </div>
 </div>
 {% endfor %}
+{% if collections.has_next %}
 <div class="scroll w-100" data-page="{{ collections.next_page_number }}" data-type="collections"></div>
+{% endif %}

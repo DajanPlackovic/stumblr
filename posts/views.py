@@ -275,16 +275,18 @@ def user(request, user_id):
     """
     displayed_user = User.objects.get(id=user_id)
 
-    # all_posts = displayed_user.posts.all().order_by('-time_posted')
-    # posts_paginator = Paginator(all_posts, 16)
-    # posts = posts_paginator.get_page(1)
+    all_posts = displayed_user.posts.all().order_by('-time_posted')
+    posts_paginator = Paginator(all_posts, 16)
+    posts = posts_paginator.get_page(1)
 
-    # all_collections = displayed_user.collections.all().order_by('-updated_on')
-    # collections_paginator = Paginator(all_collections, 16)
-    # collections = collections_paginator.get_page(1)
+    all_collections = displayed_user.collections.all().order_by('-updated_on')
+    collections_paginator = Paginator(all_collections, 16)
+    collections = collections_paginator.get_page(1)
 
     return render(request, 'posts/user.html', {
         "displayed_user": displayed_user,
-        # "post_list": posts,
-        # "collections": collections,
+        "post_list": posts,
+        "collections": collections,
+        "post_count": posts_paginator.count,
+        "collections_count": collections_paginator.count,
     })
