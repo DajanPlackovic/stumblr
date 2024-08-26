@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="card p-4 col-6 d-flex justify-content-center align-items-center flex-column">
+  {% block form_content %}
+  {% endblock %}
+</div>
+{% endblock %}
+
+{% block page_js %}
+<script src="{% static 'js/allauth_laziness.js' %}"></script>
+{% endblock %}
