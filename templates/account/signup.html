@@ -1,38 +1,44 @@
 {% extends "allauth_forms.html" %}
-{% load allauth i18n %}
-{% block head_title %}
-{% trans "Signup" %}
-{% endblock head_title %}
+
 {% block form_content %}
-{% element h1 %}
-{% trans "Sign Up" %}
-{% endelement %}
-{% setvar link %}
-<a href="{{ login_url }}">
-    {% endsetvar %}
-    {% setvar end_link %}
-</a>
-{% endsetvar %}
-{% element p %}
-{% blocktranslate %}Already have an account? Then please {{ link }}sign in{{ end_link }}.{% endblocktranslate %}
-{% endelement %}
-{% if not SOCIALACCOUNT_ONLY %}
-{% url 'account_signup' as action_url %}
-{% element form form=form method="post" action=action_url tags="entrance,signup" %}
-{% slot body %}
-{% csrf_token %}
-{% element fields form=form unlabeled=True %}
-{% endelement %}
-{{ redirect_field }}
-{% endslot %}
-{% slot actions %}
-{% element button tags="prominent,signup" type="submit" %}
-{% trans "Sign Up" %}
-{% endelement %}
-{% endslot %}
-{% endelement %}
-{% endif %}
-{% if SOCIALACCOUNT_ENABLED %}
-{% include "socialaccount/snippets/login.html" with page_layout="entrance" %}
-{% endif %}
+<h1>
+    Sign Up
+</h1>
+<p>
+    Already have an account? Then please <a href="/accounts/login/">sign in</a>.
+</p>
+<form method="post" action="/accounts/signup/" class="w-100">
+    {% csrf_token %}
+    <p class="form-floating">
+        <input type="text" name="username" placeholder="Username" autocomplete="username" minlength="1" maxlength="150"
+            required="" id="id_username" class="form-control">
+        <label for="id_username">Username</label>
+    </p>
+    <p class="form-floating">
+        <input type="email" name="email" placeholder="Email address" autocomplete="email" maxlength="320" id="id_email"
+            class="form-control">
+        <label for="id_email">Email (optional):</label>
+    </p>
+    <p class="form-floating">
+        <input type="password" name="password1" placeholder="Password" autocomplete="new-password" required=""
+            aria-describedby="id_password1_helptext" id="id_password1" class="form-control">
+        <label for="id_password1">Password:</label>
+
+        <span class="helptext" id="id_password1_helptext"></span>
+    </p>
+    <ul>
+        <li>Your password can’t be too similar to your other personal information.</li>
+        <li>Your password must contain at least 8 characters.</li>
+        <li>Your password can’t be a commonly used password.</li>
+        <li>Your password can’t be entirely numeric.</li>
+    </ul>
+    <p class="form-floating">
+        <input type="password" name="password2" placeholder="Password (again)" autocomplete="new-password" required=""
+            id="id_password2" class="form-control">
+        <label for="id_password2">Password (again):</label>
+    </p>
+    <button type="submit" class="btn btn-primary w-100">
+        Sign Up
+    </button>
+</form>
 {% endblock form_content %}
