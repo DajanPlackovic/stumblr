@@ -32,3 +32,8 @@ class Collection(models.Model):
     def save(self, **kwargs):
         self.slug = slugify(f"{self.author.username}-{self.name}")
         super().save(**kwargs)
+
+
+class Following(models.Model):
+    follower = models.ManyToManyField(User, related_name="followed")
+    followed = models.ManyToManyField(User, related_name="followers")
