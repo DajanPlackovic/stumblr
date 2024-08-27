@@ -2,7 +2,7 @@
 
 {% block content %}
 <div class="card w-100">
-  <div class="card-body d-flex justify-content-between">
+  <div class="card-body d-flex justify-content-between flex-wrap">
     <h1 class="card-title">{{ displayed_user.username }}</h1>
     {% if user.is_authenticated %}
     <button class="btn btn-primary px-3 py-2 text-uppercase" data-action="follow"
