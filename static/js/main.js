@@ -380,3 +380,13 @@ if ($('.scroll').attr('data-page')) {
     if (scrollCollections) scroll(scrollCollections, 'collection-list');
   });
 }
+
+/*=============================================
+=                 Follow User                 =
+=============================================*/
+
+$('button[data-action="follow"]').on('click', function () {
+  const url = `/follow/`;
+  const data = { followed: $(this).attr('data-post') };
+  ajaxPost({ url, data });
+});

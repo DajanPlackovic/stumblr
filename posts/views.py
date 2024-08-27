@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, JsonResponse
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator
-from .models import Post, Collection
+from .models import Post, Collection, Following
 from .forms import CreatePostForm
 
 
@@ -290,3 +290,14 @@ def user(request, user_id):
         "post_count": posts_paginator.count,
         "collections_count": collections_paginator.count,
     })
+
+
+def follow_user(request):
+    followed_id = int(dict(request.POST)["followed"][0])
+    followed = User.objects.get(id=followed_id)
+    following = Following.objects.create()
+    following.followed.set([followed])
+    print(request.user.id)
+    following.follower.set([request.user.id])
+    following.save()
+    return HttpResponse(status=200)
