@@ -35,5 +35,10 @@ class Collection(models.Model):
 
 
 class Following(models.Model):
-    follower = models.ManyToManyField(User, related_name="followed")
-    followed = models.ManyToManyField(User, related_name="followers")
+    follower = models.ForeignKey(
+        User, related_name="followed", on_delete=models.CASCADE)
+    followed = models.ForeignKey(
+        User, related_name="followers", on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.follower.username} follows {self.followed.username}"
