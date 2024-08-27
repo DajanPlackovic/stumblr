@@ -297,8 +297,10 @@ def follow_user(request):
     followed_id = int(dict(request.POST)["followed"][0])
     followed = User.objects.get(id=followed_id)
     following = Following.objects.create()
-    following.followed.set([followed])
-    print(request.user.id)
-    following.follower.set([request.user.id])
-    following.save()
-    return HttpResponse(status=200)
+    if followed != request.user:
+        following.followed.set([followed])
+        following.follower.set([request.user.id])
+        following.save()
+        return HttpResponse(status=200)
+    else:
+        return JsonResponse({"text": "You cannot follow yourself"}, status=500)
