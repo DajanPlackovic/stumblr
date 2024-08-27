@@ -147,12 +147,13 @@ def collection_list(request, collections):
 
 
 def collection_list_all(request):
-    collections = Collection.objects.all()
+    collections = Collection.objects.all().order_by('-updated_on')
     return collection_list(request, collections)
 
 
 def collection_list_user(request, user_id):
-    collections = Collection.objects.filter(author_id=user_id)
+    collections = Collection.objects.filter(
+        author_id=user_id).order_by('-updated_on')
     return collection_list(request, collections)
 
 
@@ -165,7 +166,7 @@ def individual_collection(request, slug):
     :return: A rendered HTML page with the collection and its posts.
     """
     collection = get_object_or_404(Collection, slug=slug)
-    posts = collection.posts.all()
+    posts = collection.posts.all().order_by('-time_posted')
     return render(request, 'posts/single_collection.html', {
         "collection": collection,
         "post_list": posts,
