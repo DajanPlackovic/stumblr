@@ -1,25 +1,16 @@
 {% extends "allauth_forms.html" %}
-{% load allauth i18n %}
-{% block head_title %}
-{% trans "Sign Out" %}
-{% endblock head_title %}
+
 {% block form_content %}
-{% element h1 %}
-{% trans "Sign Out" %}
-{% endelement %}
-{% element p %}
-{% trans 'Are you sure you want to sign out?' %}
-{% endelement %}
-{% url 'account_logout' as action_url %}
-{% element form method="post" action=action_url no_visible_fields=True %}
-{% slot body %}
-{% csrf_token %}
-{{ redirect_field }}
-{% endslot %}
-{% slot actions %}
-{% element button type="submit" %}
-{% trans 'Sign Out' %}
-{% endelement %}
-{% endslot %}
-{% endelement %}
+<h1>
+  Sign Out
+</h1>
+<p>
+  Are you sure you want to sign out?
+</p>
+<form method="post" action="/accounts/logout/" class="w-100">
+  {% csrf_token %}
+  <button type="submit" class="btn btn-primary w-100">
+    Sign Out
+  </button>
+</form>
 {% endblock form_content %}
