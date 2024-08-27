@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, JsonResponse
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator
-from .models import Post, Collection, UserSlug
+from .models import Post, Collection
 from .forms import CreatePostForm
 
 
