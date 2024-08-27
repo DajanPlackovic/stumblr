@@ -139,7 +139,6 @@ $('button[data-action="edit"]').on('click', function (e) {
   updateModal('Edit Post', 'Cancel', 'Post');
   $('#general_modal .btn-primary').on('click', () => {
     const newText = $('#create_post_form textarea').val();
-    console.log(newText);
     const data = { text: newText };
     const success = () => {
       $('#general_modal').modal('hide');
