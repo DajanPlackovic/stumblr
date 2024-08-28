@@ -303,12 +303,17 @@ def user(request, user_id):
     collections_paginator = Paginator(all_collections, 16)
     collections = collections_paginator.get_page(1)
 
+    followings = request.user.followed.all()
+    all_followed = set([following.followed for following in followings])
+    user_follows = displayed_user in all_followed
+
     return render(request, 'posts/user.html', {
         "displayed_user": displayed_user,
         "post_list": posts,
         "collections": collections,
         "post_count": posts_paginator.count,
         "collections_count": collections_paginator.count,
+        "user_follows": user_follows,
     })
 
 

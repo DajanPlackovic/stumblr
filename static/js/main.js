@@ -385,7 +385,13 @@ if ($('.scroll').attr('data-page')) {
 =============================================*/
 
 $('button[data-action="follow"]').on('click', function () {
+  const button = $(this);
   const url = `/follow/`;
-  const data = { followed: $(this).attr('data-post') };
-  ajaxPost({ url, data });
+  const data = { followed: button.attr('data-post') };
+  const success = () => {
+    button.text('Unfollow');
+    button.attr('data-action', 'unfollow');
+    button.off('click');
+  };
+  ajaxPost({ url, data, success });
 });
