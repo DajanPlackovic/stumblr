@@ -6,6 +6,14 @@ from .models import Post, Collection, Following
 from .forms import CreatePostForm
 
 
+def success(text='Success'):
+    return JsonResponse({"text": text}, status=200)
+
+
+def error(text='An error has occurred'):
+    return JsonResponse({"text": text}, status=500)
+
+
 # Create your views here.
 # Post Views
 def index(request):
@@ -14,7 +22,8 @@ def index(request):
 
     :param request: (HttpRequest): The HTTP request object.
 
-    :return: HttpResponse: The rendered index.html template with the post_list context variable.
+    :return: HttpResponse: The rendered index.html template with
+    the post_list context variable.
     """
     posts = Post.objects.all().order_by('-time_posted')
     paginator = Paginator(posts, 16)
@@ -72,7 +81,7 @@ def create_post(request):
             new_post.save()
             # @TODO: change this to behave differently depending on whether
             # the user is already on the posts page or on another page
-            return HttpResponse(status=200)
+            return success("Successfully created the post")
     else:
         create_post_form = CreatePostForm()
         return render(request, 'posts/create_post_form.html', {
@@ -88,9 +97,9 @@ def edit_post(request, post_id):
             post.text = text
             try:
                 post.save()
-                return HttpResponse(status=200)
+                return success("Successfully edited post")
             except Exception as e:
-                return HttpResponse(status=500)
+                return error("Failed to edit the post")
     else:
         create_post_form = CreatePostForm({"text": post.text})
         return render(request, 'posts/create_post_form.html', {
@@ -104,7 +113,8 @@ def delete_post(request, post_id):
 
     :param request: A POST request or a GET request.
     :param post_id: The id of the post to delete.
-    :return: A JSON response with the status 200 if the post is deleted correctly, or a HTML page with the post
+    :return: A JSON response with the status 200 if the post is deleted
+             correctly, or a HTML page with the post
              to be deleted if the request is a GET request.
     """
     post = get_object_or_404(Post, pk=post_id)
@@ -112,7 +122,7 @@ def delete_post(request, post_id):
     if post.author == request.user:
         if request.method == "POST":
             post.delete()
-            return HttpResponse(status=200)
+            return success("Successfully deleted the post")
         else:
             return render(request, 'posts/delete_post_form.html', {
                 "post": post
@@ -177,16 +187,18 @@ def collection_menu(request, post_id):
     """
     Adds or removes a post from the user's collections.
 
-    The POST request must contain a parameter 'collection' with a list of collection IDs.
-    The method will remove the post from all collections that the user is a part of,
-    and add the post to the collections in the list.
+    The POST request must contain a parameter 'collection' with a list of
+    collection IDs. The method will remove the post from all collections that
+    the user is a part of, and add the post to the collections in the list.
 
-    If the request is a GET request, return a JSON response with a list of dictionaries,
-    each dictionary containing the name and id of a collection, and a boolean value
-    indicating if the post is already in the collection. This is then used by JS
-    on the client side to generate a checkbox menu with the available collections.
+    If the request is a GET request, return a JSON response with a list of
+    dictionaries, each dictionary containing the name and id of a collection,
+    and a boolean value indicating if the post is already in the collection.
+    This is then used by JS on the client side to generate a checkbox menu
+    with the available collections.
 
-    :param request: A POST request with a 'collection' parameter, or a GET request.
+    :param request: A POST request with a 'collection' parameter, or
+        a GET request.
     :param post_id: The id of the post to add or remove from collections.
     :return: For GET: A JsonResponse with the list of available collections.
     For POST: An HttpResponse with the status 200 after the post is added.
@@ -201,7 +213,7 @@ def collection_menu(request, post_id):
                 collection = get_object_or_404(Collection, pk=id)
                 if request.user == collection.author:
                     post.collections.add(collection)
-        return HttpResponse(status=200)
+        return success("")
     else:
         collections = request.user.collections.all().order_by('name')
         response = [{"name": collection.name, "id": collection.id,
@@ -213,9 +225,11 @@ def create_collection(request):
     """
     Creates a new collection for the current user.
 
-    :param request: A POST request with a 'name' parameter for the new collection.
+    :param request: A POST request with a 'name' parameter for
+        the new collection.
     :return: A JSON response with the name and id of the new collection.
-    :raises: HttpResponse or JsonResponse with status 500 if there is an error, or if the collection already exists.
+    :raises: HttpResponse or JsonResponse with status 500 if there is an error,
+    or if the collection already exists.
     """
     name = dict(request.POST)["name"][0]
     try:
@@ -223,8 +237,10 @@ def create_collection(request):
     except Exception as e:
         s = str(e)
         if "duplicate key value" in s:
-            return JsonResponse({"text": f"Cannot create collection with name {name}\nCollection already exists"}, status=500)
-        return HttpResponse(status=500)
+            errorText = f"Cannot create collection with name {name}\n"
+            errorText += "Collection already exists"
+            return error(errorText)
+        return error()
     # @TODO: Handle errors
     return JsonResponse({"name": collection.name, "id": collection.id})
 
@@ -235,7 +251,8 @@ def delete_collection(request, collection_id):
 
     :param request: A POST request or a GET request.
     :param collection_id: The id of the collection to delete.
-    :return: A JSON response with the status 200 if the collection is deleted correctly, or a HTML page with the collection
+    :return: A JSON response with the status 200 if the collection is deleted
+             correctly, or a HTML page with the collection
              to be deleted if the request is a GET request.
     """
     collection = get_object_or_404(Collection, pk=collection_id)
@@ -260,7 +277,9 @@ def edit_collection(request, id):
     except Exception as e:
         s = str(e)
         if "duplicate key value" in s:
-            return JsonResponse({"text": f"Cannot rename collection to {name}\nCollection already exists"}, status=500)
+            errorText = f"Cannot rename collection to {name}\n"
+            errorText += "Collection already exists"
+            return error(errorText)
         return HttpResponse(status=500)
 
 # User Views
@@ -302,8 +321,8 @@ def follow_user(request):
         if new_followed not in all_followed:
             Following.objects.create(
                 follower=request.user, followed=new_followed)
-            return HttpResponse(status=200)
+            return success(f"Now following {new_followed.username}")
         else:
-            return JsonResponse({"text": "Already following this user"}, status=500)
+            return error("Already following this user")
     else:
-        return JsonResponse({"text": "You cannot follow yourself"}, status=500)
+        return error("You cannot follow yourself")
