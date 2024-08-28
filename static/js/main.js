@@ -384,14 +384,34 @@ if ($('.scroll').attr('data-page')) {
 =                 Follow User                 =
 =============================================*/
 
-$('button[data-action="follow"]').on('click', function () {
-  const button = $(this);
-  const url = `/follow/`;
-  const data = { followed: button.attr('data-post') };
-  const success = () => {
-    button.text('Unfollow');
-    button.attr('data-action', 'unfollow');
-    button.off('click');
-  };
+function followUnfollow(button, url, success) {
+  const data = { followed: $(button).attr('data-post') };
   ajaxPost({ url, data, success });
-});
+}
+
+function follow(e) {
+  const button = e.currentTarget;
+  const url = `/follow/`;
+  const success = () => {
+    $(button).attr('data-action', 'unfollow');
+    $(button).text('Unfollow');
+    $(button).off('click');
+    $(button).on('click', unfollow);
+  };
+  followUnfollow(button, url, success);
+}
+
+function unfollow(e) {
+  const button = e.currentTarget;
+  const url = '/unfollow/';
+  const success = () => {
+    $(button).attr('data-action', 'follow');
+    $(button).text('Follow');
+    $(button).off('click');
+    $(button).on('click', follow);
+  };
+  followUnfollow(button, url, success);
+}
+
+$('button[data-action="follow"]').on('click', follow);
+$('button[data-action="unfollow"]').on('click', unfollow);
