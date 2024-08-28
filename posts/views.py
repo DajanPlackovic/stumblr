@@ -331,3 +331,20 @@ def follow_user(request):
             return error("Already following this user")
     else:
         return error("You cannot follow yourself")
+
+
+def unfollow_user(request):
+    followed_id = int(dict(request.POST)["followed"][0])
+    if followed_id != request.user.id:
+        followings = request.user.followed.all()
+        all_followed = set([following.followed for following in followings])
+        unfollowed = User.objects.get(id=followed_id)
+        if unfollowed in all_followed:
+            following = Following.objects.get(
+                follower=request.user, followed=unfollowed)
+            following.delete()
+            return success(f"No longer following {unfollowed.username}")
+        else:
+            return error("Already following this user")
+    else:
+        return error("You cannot unfollow yourself")
