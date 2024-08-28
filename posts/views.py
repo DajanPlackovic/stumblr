@@ -296,8 +296,13 @@ def user(request, user_id):
 def follow_user(request):
     followed_id = int(dict(request.POST)["followed"][0])
     if followed_id != request.user.id:
-        followed = User.objects.get(id=followed_id)
-        Following.objects.create(follower=request.user, followed=followed)
-        return HttpResponse(status=200)
+        followings = request.user.followed.all()
+        all_followed = set([following.followed for following in followings])
+        new_followed = User.objects.get(id=followed_id)
+        if new_followed not in all_followed:
+            Following.objects.create(follower=request.user, followed=followed)
+            return HttpResponse(status=200)
+        else:
+            return JsonResponse({"text": "Already following this user"}, status=500)
     else:
         return JsonResponse({"text": "You cannot follow yourself"}, status=500)
