@@ -307,6 +307,22 @@ def user(request, user_id):
     all_followed = set([following.followed for following in followings])
     user_follows = displayed_user in all_followed
 
+    followers_followings = displayed_user.followers.all()
+    followers = [
+        {
+            "username": following.follower.username,
+            "id": following.follower.id
+        }
+        for following in followers_followings]
+
+    followed_followings = displayed_user.followed.all()
+    followed = [
+        {
+            "username": following.followed.username,
+            "id": following.followed.id
+        }
+        for following in followed_followings]
+
     return render(request, 'posts/user.html', {
         "displayed_user": displayed_user,
         "post_list": posts,
@@ -314,6 +330,8 @@ def user(request, user_id):
         "post_count": posts_paginator.count,
         "collections_count": collections_paginator.count,
         "user_follows": user_follows,
+        "followers": followers,
+        "followed": followed,
     })
 
 
