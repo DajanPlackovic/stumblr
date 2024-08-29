@@ -113,8 +113,7 @@
     0px 2px 2px -7px rgba(0, 0, 0, 0.15);
 }
 .pmd-floating-action-btn:last-child:before {
-  font-size: 14px;
-  bottom: 25%;
+  display: none;
 }
 .pmd-floating-action-btn:active,
 .pmd-floating-action-btn:focus,
