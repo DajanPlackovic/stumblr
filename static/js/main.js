@@ -83,6 +83,34 @@ const ajaxPost = (rest = {}) =>
     },
     mode: 'same-origin',
   });
+
+/*=============================================
+=          Render Frontend Templates          =
+=============================================*/
+
+function renderTemplate(data, html) {
+  const { fill, condition } = data;
+  console.log(fill);
+  console.log(condition);
+  if (fill) {
+    for (const key of Object.keys(fill)) {
+      html = html.replaceAll(`|| ${key} ||`, fill[key]);
+    }
+  }
+  if (condition) {
+    for (const key of Object.keys(condition)) {
+      const bracket = `\\\{\\\| ${key} \\\|\\\}`;
+      const pattern = new RegExp(`${bracket}([\\S\\s]*)${bracket}`, 'g');
+      if (condition[key]) {
+        html = html.replaceAll(pattern, '$1');
+      } else {
+        html = html.replaceAll(pattern, '');
+      }
+    }
+  }
+  return html;
+}
+
 /*=============================================
 =                 Action Menu                 =
 =============================================*/
@@ -133,7 +161,8 @@ $('button[data-action="delete"]').on('click', function (e) {
     $('#general_modal .modal-body').html(loader);
   };
   const success = (data) => {
-    $('#general_modal .modal-body').html(data);
+    let post = $('template#post').html();
+    $('#general_modal .modal-body').html(renderTemplate(data, post));
   };
   ajaxGet({ url, beforeSend, success });
 });

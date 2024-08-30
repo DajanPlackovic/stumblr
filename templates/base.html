@@ -154,6 +154,40 @@
         aria-label="Edit the name of the collection" required>
     </li>
   </template>
+  <!-- Post Template
+  -->
+  <template id="post">
+    <div class="card col-12 col-md-5 item-card my-2 mx-auto">
+      <div class="card-header d-flex justify-content-between align-items-center">
+        <div class="meta-data">
+          <div class="author">
+            <a href="|| author_url ||">
+              @|| author_username ||
+            </a>
+          </div>
+          <div class="date">|| time_posted ||</div>
+        </div>
+        <div class="post__actions d-flex justify-content-between">
+          {| authenticated |}
+          <button tabindex="0" class="btn btn-primary me-2" data-post="{{ post.id }}" data-action="add_to_collection">
+            <i class="fa-regular fa-bookmark"></i>
+          </button>
+          <div class="collection-menu card p-2"></div>
+          {| authenticated |}
+          {| actionable |}
+          <button class="btn btn-primary me-2" data-post="{{ post.id }}" data-action="edit">
+            <i class="fas fa-pen"></i>
+          </button>
+          <button class="btn btn-danger" data-post="{{ post.id }}" data-action="delete"><i
+              class="fas fa-trash"></i></button>
+          {| actionable |}
+        </div>
+      </div>
+      <div class="card-body">
+        <p class="card-text">|| text ||</p>
+      </div>
+    </div>
+  </template>
   <script src="https://cdn.jsdelivr.net/npm/@floating-ui/core@1.6.7"></script>
   <script src="https://cdn.jsdelivr.net/npm/@floating-ui/dom@1.6.10"></script>
   <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>

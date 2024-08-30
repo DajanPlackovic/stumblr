@@ -197,6 +197,7 @@
 }
 
 .col-md-6 .item-card,
-.col-md-5 .item-card {
+.col-md-5 .item-card,
+.modal-body .item-card {
   width: 100%;
 }

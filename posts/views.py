@@ -124,9 +124,20 @@ def delete_post(request, post_id):
             post.delete()
             return success("Successfully deleted the post")
         else:
-            return render(request, 'posts/delete_post_form.html', {
-                "post": post
-            })
+            return JsonResponse(
+                {
+                    "fill": {
+                        "text": post.text,
+                        "author_url": "",
+                        "author_username": post.author.username,
+                        "time_posted": post.time_posted.strftime("%d/%m/%Y %H:%M"),
+                    },
+                    "condition": {
+                        "authenticated": request.user.is_authenticated,
+                        "actionable": post.author == request.user,
+                    }
+                }
+            )
 
 
 # Collection Views
