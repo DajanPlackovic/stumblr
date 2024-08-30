@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
 {% load static %}
 
+{% block content_id %}post_container{% endblock %}
+
 {% block content %}
 {% include 'posts/post_list.html' %}
 {% endblock %}

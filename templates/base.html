@@ -46,7 +46,8 @@
   </nav>
   <div class="container">
     <div class="row my-4">
-      <div id="main_content" class="col-12 d-flex flex-wrap justify-content-center align-items-center">
+      <div id="{% block content_id %}{% endblock %}"
+        class="col-12 d-flex flex-wrap justify-content-center align-items-center">
         {% block content %}
         {% endblock %}
       </div>

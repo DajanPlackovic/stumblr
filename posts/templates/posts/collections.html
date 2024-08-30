@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
 {% load static %}
 
+{% block content_id %}collection_container{% endblock %}
+
 {% block content %}
 {% include 'posts/collection_list.html' %}
 {% endblock %}

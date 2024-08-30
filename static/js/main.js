@@ -393,13 +393,15 @@ $('button[data-action="delete-collection"]').on('click', function (e) {
 =               Infinite Scroll               =
 =============================================*/
 
-function scroll(scrollMarker, url) {
+function scroll(scrollMarker, post) {
   const rect = scrollMarker.getBoundingClientRect();
+  let url = post ? 'post-list' : 'collection-list';
   url += `?page=${$(scrollMarker).attr('data-page')}`;
+  const contentId = post ? '#post_container' : '#collection_container';
   if (rect.top < document.documentElement.clientHeight + 1000) {
     $(scrollMarker).remove();
     const success = (data) => {
-      $('#main_content').append(data);
+      $(contentId).append(data);
     };
     ajaxGet({ url, success });
   }
@@ -409,8 +411,8 @@ if ($('.scroll').attr('data-page')) {
   $(document).on('scroll', () => {
     const scrollPosts = $('.scroll[data-type="posts"]').get(0);
     const scrollCollections = $('.scroll[data-type="collections"]').get(0);
-    if (scrollPosts) scroll(scrollPosts, 'post-list');
-    if (scrollCollections) scroll(scrollCollections, 'collection-list');
+    if (scrollPosts) scroll(scrollPosts, true);
+    if (scrollCollections) scroll(scrollCollections, false);
   });
 }
 
