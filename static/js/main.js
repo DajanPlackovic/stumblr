@@ -31,11 +31,15 @@ function updateModal(title, cancelBtn, postBtn) {
 function showErrorOrInfo(response, error) {
   let text;
   let className = error ? 'bg-danger' : 'bg-info';
-  if (response.responseJSON?.text) {
-    text = response.responseJSON.text;
+  if (error) {
+    if (response.responseJSON?.text) {
+      text = response.responseJSON.text;
+    } else {
+      text = 'An error has occurred';
+      className = 'bg-danger';
+    }
   } else {
-    text = 'An error has occurred';
-    className = 'bg-danger';
+    text = response;
   }
   const container = $('.toast-container');
   // clean up toasts that were already hidden
@@ -111,17 +115,18 @@ $('#create_post_btn').on('click', () => {
 
 $('button[data-action="delete"]').on('click', function (e) {
   e.preventDefault();
-  const url = `/delete-post/${$(this).attr('data-post')}`;
+  const button = this;
+  const url = `/delete-post/${$(button).attr('data-post')}`;
   updateModal('Delete Post', 'Cancel', 'Delete');
   $('#general_modal .btn-primary')
     .addClass('btn-danger')
     .on('click', () => {
       const data = $('#delete_post_form').serialize();
-      const success = () => {
+      function success() {
         $('#general_modal').modal('hide');
-        // @TODO: just remove the deleted post, instead of reloading
-        window.location.replace('');
-      };
+        $(button).parents('.item-card').remove();
+        showInfo('Post deleted successfully');
+      }
       ajaxPost({ url, data, success });
     });
   const beforeSend = () => {
