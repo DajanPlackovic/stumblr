@@ -133,6 +133,7 @@ $('#create_post_btn').on('click', () => {
         message += `\n<a href="/">View here.</a>`;
       }
       showInfo(message);
+      $('#general_modal .btn-primary').off('click');
     };
     ajaxPost({ url, data, success });
   });
@@ -163,7 +164,10 @@ $('button[data-action="delete"]').on('click', function (e) {
         $(button).parents('.item-card').remove();
         showInfo('Post deleted successfully');
       }
-      ajaxPost({ url, data, success });
+      function complete() {
+        $('#general_modal .btn-primary').off('click').removeClass('btn-danger');
+      }
+      ajaxPost({ url, data, success, complete });
     });
   const beforeSend = () => {
     $('#general_modal .modal-body').html(loader);
@@ -178,14 +182,16 @@ $('button[data-action="delete"]').on('click', function (e) {
 $('button[data-action="edit"]').on('click', function (e) {
   e.preventDefault();
   const url = `/edit-post/${$(this).attr('data-post')}`;
+  const textCard = $(this).parents('.item-card').find('.card-text');
   updateModal('Edit Post', 'Cancel', 'Post');
   $('#general_modal .btn-primary').on('click', () => {
     const newText = $('#create_post_form textarea').val();
     const data = { text: newText };
-    const success = () => {
+    const success = (data) => {
       $('#general_modal').modal('hide');
-      // @TODO: just change the edited post, instead of reloading
-      window.location.replace('');
+      textCard.text(data?.text);
+      showInfo('Post successfully edited.');
+      $('#general_modal .btn-primary').off('click');
     };
     ajaxPost({ url, data, success });
   });

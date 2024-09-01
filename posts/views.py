@@ -107,7 +107,7 @@ def edit_post(request, post_id):
             post.text = text
             try:
                 post.save()
-                return success("Successfully edited post")
+                return JsonResponse({"text": post.text})
             except Exception as e:
                 return error("Failed to edit the post")
     else:
