@@ -123,7 +123,6 @@ $('#create_post_btn').on('click', () => {
     const data = $(form).serialize();
     const success = (data) => {
       $('#general_modal').modal('hide');
-      // @TODO: if user is already on posts page, insert post instead of reloading
       const postContainer = $('#post_container');
       let message = 'Post successfully created.';
       if (postContainer[0]) {
