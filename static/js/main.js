@@ -50,7 +50,7 @@ function showErrorOrInfo(response, error) {
     .find('.toast')
     .addClass(className)
     .find('.toast-body')
-    .text(text);
+    .html(text);
   const toastOut = $(toastHtml).find('.toast');
   $(container).append(toastOut);
   const toast = bootstrap.Toast.getOrCreateInstance(toastOut);
@@ -121,10 +121,18 @@ $('#create_post_btn').on('click', () => {
   const form = '#create_post_form';
   $('#general_modal .btn-primary').on('click', () => {
     const data = $(form).serialize();
-    const success = () => {
+    const success = (data) => {
       $('#general_modal').modal('hide');
       // @TODO: if user is already on posts page, insert post instead of reloading
-      window.location.replace('');
+      const postContainer = $('#post_container');
+      let message = 'Post successfully created.';
+      if (postContainer[0]) {
+        const postTemplate = $('template#post').html();
+        postContainer.prepend(renderTemplate(data, postTemplate));
+      } else {
+        message += `\n<a href="/">View here.</a>`;
+      }
+      showInfo(message);
     };
     ajaxPost({ url, data, success });
   });

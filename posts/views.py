@@ -60,7 +60,6 @@ def post_list_collection(request, slug):
 
 
 def create_post(request):
-    # @TODO: add error handling
     """
     Creates a new post.
 
@@ -79,9 +78,20 @@ def create_post(request):
             new_post = create_post_form.save(commit=False)
             new_post.author = request.user
             new_post.save()
-            # @TODO: change this to behave differently depending on whether
-            # the user is already on the posts page or on another page
-            return success("Successfully created the post")
+            return JsonResponse(
+                {
+                    "fill": {
+                        "text": new_post.text,
+                        "author_url": "",
+                        "author_username": new_post.author.username,
+                        "time_posted": new_post.time_posted.strftime("%d/%m/%Y %H:%M"),
+                    },
+                    "condition": {
+                        "authenticated": request.user.is_authenticated,
+                        "actionable": new_post.author == request.user,
+                    }
+                }
+            )
     else:
         create_post_form = CreatePostForm()
         return render(request, 'posts/create_post_form.html', {
