@@ -2,8 +2,22 @@ from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, JsonResponse
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator
-from .models import Post, Collection, Following
+from .models import Post, Collection, Following, DarkTheme
 from .forms import CreatePostForm
+
+
+def check_theme(request):
+    theme = DarkTheme.objects.get_or_create(
+        user=request.user, defaults={"dark_theme": False})[0]
+    return theme.dark_theme
+
+
+def set_theme(request):
+    new_theme = dict(request.POST)["theme"][0]
+    theme = DarkTheme.objects.get(user=request.user)
+    theme.dark_theme = new_theme == 'dark'
+    theme.save()
+    return HttpResponse(status=200)
 
 
 def success(text='Success'):
@@ -30,7 +44,8 @@ def index(request):
 
     post_list = paginator.get_page(1)
     return render(request, 'posts/index.html', {
-        "post_list": post_list
+        "post_list": post_list,
+        "dark_theme": check_theme(request),
     })
 
 
@@ -41,6 +56,7 @@ def post_list(request, posts):
     post_list = paginator.get_page(page_number)
     return render(request, 'posts/post_list.html', {
         "post_list": post_list,
+        "dark_theme": check_theme(request),
     })
 
 
@@ -96,6 +112,7 @@ def create_post(request):
         create_post_form = CreatePostForm()
         return render(request, 'posts/create_post_form.html', {
             "create_post_form": create_post_form,
+            "dark_theme": check_theme(request),
         })
 
 
@@ -114,6 +131,7 @@ def edit_post(request, post_id):
         create_post_form = CreatePostForm({"text": post.text})
         return render(request, 'posts/create_post_form.html', {
             "create_post_form": create_post_form,
+            "dark_theme": check_theme(request),
         })
 
 
@@ -163,7 +181,8 @@ def collections(request):
     collections = paginator.get_page(1)
 
     return render(request, 'posts/collections.html', {
-        "collections": collections
+        "collections": collections,
+        "dark_theme": check_theme(request),
     })
 
 
@@ -174,6 +193,7 @@ def collection_list(request, collections):
     col_list = paginator.get_page(page_number)
     return render(request, 'posts/collection_list.html', {
         "collections": col_list,
+        "dark_theme": check_theme(request),
     })
 
 
@@ -201,6 +221,7 @@ def individual_collection(request, slug):
     return render(request, 'posts/single_collection.html', {
         "collection": collection,
         "post_list": posts,
+        "dark_theme": check_theme(request),
     })
 
 
@@ -284,7 +305,8 @@ def delete_collection(request, collection_id):
             return HttpResponse(status=200)
         else:
             return render(request, 'posts/delete_collection_form.html', {
-                "collection": collection
+                "collection": collection,
+                "dark_theme": check_theme(request),
             })
 
 
@@ -353,6 +375,7 @@ def user(request, user_id):
         "user_follows": user_follows,
         "followers": followers,
         "followed": followed,
+        "dark_theme": check_theme(request),
     })
 
 

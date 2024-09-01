@@ -1,5 +1,5 @@
 from django.urls import path, include
-from .views import index, create_post, delete_post, collections, individual_collection, collection_menu, create_collection, user, delete_collection, edit_collection, edit_post, post_list_index, post_list_user, post_list_collection, collection_list_all, collection_list_user, follow_user, unfollow_user
+from .views import index, create_post, delete_post, collections, individual_collection, collection_menu, create_collection, user, delete_collection, edit_collection, edit_post, post_list_index, post_list_user, post_list_collection, collection_list_all, collection_list_user, follow_user, unfollow_user, set_theme
 
 urlpatterns = [
     path('', include(
@@ -42,4 +42,5 @@ urlpatterns = [
     )),
     path('follow/', follow_user, name="follow-user"),
     path('unfollow/', unfollow_user, name="unfollow-user"),
+    path('set-theme', set_theme, name="set-theme"),
 ]

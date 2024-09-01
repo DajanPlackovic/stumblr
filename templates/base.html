@@ -1,7 +1,7 @@
 {% load static %}
 
 <!DOCTYPE html>
-<html lang="en" data-bs-theme="dark">
+<html lang="en" data-bs-theme="{% if dark_theme %}dark{% else %}light{% endif %}">
 
 <head>
   <title>Stumblr</title>
@@ -30,6 +30,10 @@
           <li class="nav-item">
             <a class="nav-link d-flex justify-content-between align-items-center" href="{% url 'collections' %}"><i
                 class="fas fa-bookmark"></i><strong class="ms-3 me-3 text-larger">Collections</strong></a>
+          </li>
+          <li class="nav-item">
+            <button class="nav-link d-flex justify-content-between align-items-center" id="theme_btn"><i
+                class="fas fa-bookmark"></i><strong class="ms-3 me-3 text-larger">Change Color Theme</strong></button>
           </li>
           <li class="nav-item">
             {% if user.is_authenticated %}

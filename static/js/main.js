@@ -464,3 +464,21 @@ function unfollow(e) {
 
 $('button[data-action="follow"]').on('click', follow);
 $('button[data-action="unfollow"]').on('click', unfollow);
+
+/*=============================================
+=              Change Color Theme             =
+=============================================*/
+
+$('button#theme_btn').on('click', () => {
+  const html = $('html');
+  const url = '/set-theme';
+  if (html.attr('data-bs-theme') == 'light') {
+    html.attr('data-bs-theme', 'dark');
+    const data = { theme: 'dark' };
+    ajaxPost({ url, data });
+  } else {
+    html.attr('data-bs-theme', 'light');
+    const data = { theme: 'light' };
+    ajaxPost({ url, data });
+  }
+});
