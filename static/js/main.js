@@ -87,8 +87,6 @@ const ajaxPost = (rest = {}) => {
 
 function renderTemplate(data, html) {
   const { fill, condition } = data;
-  console.log(fill);
-  console.log(condition);
   if (fill) {
     for (const key of Object.keys(fill)) {
       html = html.replaceAll(`|| ${key} ||`, fill[key]);
