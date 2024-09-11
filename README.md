@@ -518,7 +518,7 @@ The [autopep8 extension in VS Code](https://marketplace.visualstudio.com/items?i
 
 [JSHints JavaScript Code Quality Tool](https://jshint.com/) was used to validate the JS code.
 
-Several features were flagged as being support only in es9 (object spread) or es11 (optional chaining). Lines featuring these were removed and equivalent functionality achieved with more verbose code. JSHint also complained about how a ternary was formatted, so the position of the newline was adjusted. (See commit 4b74eef02b47b7a9e502e6caec82731246d21775)
+Several features were flagged as being support only in es9 (object spread) or es11 (optional chaining). Lines featuring these were removed and equivalent functionality achieved with more verbose code. JSHint also complained about how a ternary was formatted, so the position of the newline was adjusted. (See commit [4b74](https://github.com/DajanPlackovic/stumblr/commit/4b74eef02b47b7a9e502e6caec82731246d21775))
 
 ### Accessibility
 
