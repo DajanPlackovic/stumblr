@@ -9,62 +9,62 @@ Visit the deployed website [here](https://stumblr-0b65e0f518b4.herokuapp.com/).
 ## Table of Contents
 
 - [Stubmlr](#stubmlr)
-   * [Table of Contents](#table-of-contents)
-   * [User Experience (UX)](#user-experience-ux)
-      + [Strategy](#strategy)
-         - [Project Goals](#project-goals)
-         - [User Goals](#user-goals)
-         - [Strategy Table](#strategy-table)
-      + [Scope](#scope)
-         - [User Stories](#user-stories)
-      + [Structure](#structure)
-         - [Database Model](#database-model)
-      + [Skeleton](#skeleton)
-         - [Wireframes](#wireframes)
-      + [Design](#design)
-         - [Color Scheme](#color-scheme)
-         - [Typography](#typography)
-   * [Features](#features)
-      + [All Pages](#all-pages)
-      + [Post Lists](#post-lists)
-         - [Other People's Posts](#other-peoples-posts)
-         - [Own Posts](#own-posts)
-      + [Collection List](#collection-list)
-      + [Single Collection](#single-collection)
-      + [User Profile](#user-profile)
-      + [Authentication](#authentication)
-   * [Technologies Used](#technologies-used)
-      + [Languages Used](#languages-used)
-      + [Libraries and Frameworks](#libraries-and-frameworks)
-      + [Packages / Dependecies Installed](#packages-dependecies-installed)
-      + [Database Management](#database-management)
-      + [Tools and Programs](#tools-and-programs)
-   * [Testing](#testing)
-      + [Testing User Stories](#testing-user-stories)
-      + [Code Validation](#code-validation)
-         - [HTML](#html)
-         - [CSS](#css)
-         - [Python](#python)
-         - [JavaScript](#javascript)
-      + [Accessibility](#accessibility)
-         - [Lighthouse Reports](#lighthouse-reports)
-      + [Manual Testing](#manual-testing)
-         - [Browser Compatibility](#browser-compatibility)
-         - [Functionality Tests](#functionality-tests)
-            * [All Pages](#all-pages-1)
-            * [Post Lists](#post-lists-1)
-            * [Collection List](#collection-list-1)
-            * [Single Collection](#single-collection-1)
-            * [User Profile](#user-profile-1)
-            * [Authentication](#authentication-1)
-         - [Failed Tests and Known Bugs](#failed-tests-and-known-bugs)
-   * [Deployment](#deployment)
-      + [Deploying on Heroku](#deploying-on-heroku)
-   * [Finished Product](#finished-product)
-   * [Credits](#credits)
-      + [Content](#content)
-      + [Code](#code)
-   * [Acknowledgements](#acknowledgements)
+  - [Table of Contents](#table-of-contents)
+  - [User Experience (UX)](#user-experience-ux)
+    - [Strategy](#strategy)
+      - [Project Goals](#project-goals)
+      - [User Goals](#user-goals)
+      - [Strategy Table](#strategy-table)
+    - [Scope](#scope)
+      - [User Stories](#user-stories)
+    - [Structure](#structure)
+      - [Database Model](#database-model)
+    - [Skeleton](#skeleton)
+      - [Wireframes](#wireframes)
+    - [Design](#design)
+      - [Color Scheme](#color-scheme)
+      - [Typography](#typography)
+  - [Features](#features)
+    - [All Pages](#all-pages)
+    - [Post Lists](#post-lists)
+      - [Other People's Posts](#other-peoples-posts)
+      - [Own Posts](#own-posts)
+    - [Collection List](#collection-list)
+    - [Single Collection](#single-collection)
+    - [User Profile](#user-profile)
+    - [Authentication](#authentication)
+  - [Technologies Used](#technologies-used)
+    - [Languages Used](#languages-used)
+    - [Libraries and Frameworks](#libraries-and-frameworks)
+    - [Packages / Dependecies Installed](#packages-dependecies-installed)
+    - [Database Management](#database-management)
+    - [Tools and Programs](#tools-and-programs)
+  - [Testing](#testing)
+    - [Testing User Stories](#testing-user-stories)
+    - [Code Validation](#code-validation)
+      - [HTML](#html)
+      - [CSS](#css)
+      - [Python](#python)
+      - [JavaScript](#javascript)
+    - [Accessibility](#accessibility)
+      - [Lighthouse Reports](#lighthouse-reports)
+    - [Manual Testing](#manual-testing)
+      - [Browser Compatibility](#browser-compatibility)
+      - [Functionality Tests](#functionality-tests)
+        - [All Pages](#all-pages-1)
+        - [Post Lists](#post-lists-1)
+        - [Collection List](#collection-list-1)
+        - [Single Collection](#single-collection-1)
+        - [User Profile](#user-profile-1)
+        - [Authentication](#authentication-1)
+      - [Failed Tests and Known Bugs](#failed-tests-and-known-bugs)
+  - [Deployment](#deployment)
+    - [Deploying on Heroku](#deploying-on-heroku)
+  - [Finished Product](#finished-product)
+  - [Credits](#credits)
+    - [Content](#content)
+    - [Code](#code)
+  - [Acknowledgements](#acknowledgements)
 
 ---
 
@@ -401,87 +401,87 @@ The default Bootstrap fonts were used.
 
 - The user can view posts on the homepage
 
-#### 1. As a user I can create an account so that I can later log in and post
+#### 2. As a user I can create an account so that I can later log in and post
 
 - A sign in/sign up button is always displayed in the top right when the user is not logged in
 - The button links to a sign in form with the option to sign up if the user does not have an account yet
 - If the link to the sign up form is clicked, a sign up form is rendered
 - If the user fills it out and submits it, a new profile is created for them with the data they entered and they are automatically logged in
 
-#### 1. As a user I can log in to the site so that I can take actions on the site which are associated with my user profile
+#### 3. As a user I can log in to the site so that I can take actions on the site which are associated with my user profile
 
 - A sign in/sign up button is always displayed in the top right when the user is not logged in
 - If the user fills out the sign in form with the correct data and submit it, they are logged in
 
-#### 1. As a user I can create and publish a post so that it is added to the site and displayed on the home page
+#### 4. As a user I can create and publish a post so that it is added to the site and displayed on the home page
 
 - Signed-in users can create a post using the action menu in the bottom right
 
-#### 1. As a user I can stay on the post page after posting without reloading so that I do not need to wait for the page to re-render anytime I post
+#### 5. As a user I can stay on the post page after posting without reloading so that I do not need to wait for the page to re-render anytime I post
 
 - A post is added dynamically to a page with JS without a reload
 - If there is no post list on the page, a notification instead informs the user the post was created successfully and links to the homepage, where the post can be seen
 
-#### 1. As a user I can delete posts I have posted so that I can remove any content I no longer want to be up on the platform
+#### 6. As a user I can delete posts I have posted so that I can remove any content I no longer want to be up on the platform
 
 - A button to delete a post is shown on the post if the user is logged in and has created the post
 - Clicking on the button shows the post to be deleted in the modal and asks the user to confirm the deletion
 - If the user confirms, the post is removed
 
-#### 1. As a logged in user I can edit the posts I created so that I can change their content after posting
+#### 7. As a logged in user I can edit the posts I created so that I can change their content after posting
 
 - A button to edit a post is shown on the post if the user is logged in and has created the post
 - Clicking on the button prepopulates the form for editing and creating posts in the modal and gives the user the opportunity to edit the text of the post
 - When the user submits the form, the text of the post is updated
 
-#### 1. As a user I can create a collection so that I can later organise posts by common features
+#### 8. As a user I can create a collection so that I can later organise posts by common features
 
 - A button to add a post to a collection is shown next to every post
 - If the user clicks it, they see a list of their collections
 - At the bottom of the list is a plus button
 - If the user clicks it, they can enter the name of their new collection and create it by pressing enter
 
-#### 1. As a user I can add a post to the collection I created so that I can organise posts I like by theme or common features
+#### 9. As a user I can add a post to the collection I created so that I can organise posts I like by theme or common features
 
 - A button to add a post to a collection is shown next to every post
 - If the user clicks it, they see a list of their collections
 - If they click on a collection, the collection is darkened to show it is selected
 - Once they click away, the new set of collections is sent to the server and the associated collections of the post are updated
 
-#### 1. As a logged-in user I can edit the name of collections I created so that I can change their designations if needed
+#### 10. As a logged-in user I can edit the name of collections I created so that I can change their designations if needed
 
 - A button to add a post to a collection is shown next to every post
 - If the user clicks it, they see a list of their collections
 - There is a button with a pen icon next to every collection that allows the user to edit the collection name
 
-#### 1. As a user I can view collections on a separate page so that I can navigate through the groupings of posts I created
+#### 11. As a user I can view collections on a separate page so that I can navigate through the groupings of posts I created
 
 - There is a collections page, where the user can view the list of all collections
 
-#### 1. As a user I can view the posts that have been added to a collection so that I can navigate them by common features
+#### 12. As a user I can view the posts that have been added to a collection so that I can navigate them by common features
 
 - If a user clicks on a collection in the collections list, they see all the posts included in that collection
 
-#### 1. As a user I can keep scrolling through posts and collections so that I do not need to switch pages when I get to the end of the loaded content
+#### 13. As a user I can keep scrolling through posts and collections so that I do not need to switch pages when I get to the end of the loaded content
 
 - Post, collection and user profile pages load an initial number of posts and collections (16)
 - If the user keeps scrolling, additional posts and collections get loaded onto the page
 
-#### 1. As a logged-in user I can follow another user so that I can filter my post view to only the people I follow
+#### 14. As a logged-in user I can follow another user so that I can filter my post view to only the people I follow
 
 - The user sees a Follow button next to users on their profile page
 - Clicking the button follows the user
 - The filtering functionality has been cut due to lack of time
 
-#### 1. As a logged-in user I can view which other users are following me so that I can figure out who is reading what I write
+#### 15. As a logged-in user I can view which other users are following me so that I can figure out who is reading what I write
 
 - Followers are listed on each user's profile page
 
-#### 1. As a logged-in user I can view all users I follow so that I can get an overview of all of my preferred posters
+#### 16. As a logged-in user I can view all users I follow so that I can get an overview of all of my preferred posters
 
 - Followed users are listed on each user's profile page
 
-#### 1. As a logged-in user I can unfollow another user so that they are no longer included in my preferred posters
+#### 17. As a logged-in user I can unfollow another user so that they are no longer included in my preferred posters
 
 - If a user already follows another user, they see an Unfollow button next to their username on the user profile page
 - Clicking the button unfollows the user
@@ -494,7 +494,7 @@ The [W3C Markup Validator](https://validator.w3.org/) was used to validate the H
 
 There was initially an error indicating that a `div` element was the child of an `h2` element in an impermissible fashion, resulting from the way the collection template was structured. The offending `h2` has been changed to `div`. (See commit 270ab4b13121273ad0138073339c16e70072d62c)
 
-The `id` for the main content `div` was unset on the user porifle page due to a templating error. This has been corrected by adding an additional block to the `user.html` template. (See commit 629fa2befa7ce0c5503d8b294006d668bd54ff48)
+The `id` for the main content `div` was unset on the user porifle page due to a templating error. This has been corrected by adding an additional block to the `user.html` template. (See commit [629f](https://github.com/DajanPlackovic/stumblr/commit/629fa2befa7ce0c5503d8b294006d668bd54ff48))
 
 There is still a warning on the index page that the language should be set to `zxx` or similar due to the Lorem Ipsum content. I have elected to ignore this warning, as the content is only illustrative and any posts made by human users will be in English, as are all the links and fixed content on the page.
 
@@ -510,9 +510,9 @@ The [autopep8 extension in VS Code](https://marketplace.visualstudio.com/items?i
 
 [PEP8 online](http://pep8online.com/) was further used to check the code. It indicated several overlong lines which were shortened in the following commits:
 
-- a33ff6d801808d0850787dd7301a1dcd0ab6ba4e
-- 89b25b2a97359ead5e3a99f0421ffdb797580bee
-- 291fe16339f7e5de62dd68e15674c9be765f2231
+- (a33f)[https://github.com/DajanPlackovic/stumblr/commit/a33ff6d801808d0850787dd7301a1dcd0ab6ba4e]
+- (89b2)[https://github.com/DajanPlackovic/stumblr/commit/89b25b2a97359ead5e3a99f0421ffdb797580bee]
+- (291f)[https://github.com/DajanPlackovic/stumblr/commit/291fe16339f7e5de62dd68e15674c9be765f2231]
 
 #### JavaScript
 
