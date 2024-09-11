@@ -510,9 +510,9 @@ The [autopep8 extension in VS Code](https://marketplace.visualstudio.com/items?i
 
 [PEP8 online](http://pep8online.com/) was further used to check the code. It indicated several overlong lines which were shortened in the following commits:
 
-- (a33f)[https://github.com/DajanPlackovic/stumblr/commit/a33ff6d801808d0850787dd7301a1dcd0ab6ba4e]
-- (89b2)[https://github.com/DajanPlackovic/stumblr/commit/89b25b2a97359ead5e3a99f0421ffdb797580bee]
-- (291f)[https://github.com/DajanPlackovic/stumblr/commit/291fe16339f7e5de62dd68e15674c9be765f2231]
+- [a33f](https://github.com/DajanPlackovic/stumblr/commit/a33ff6d801808d0850787dd7301a1dcd0ab6ba4e)
+- [89b2](https://github.com/DajanPlackovic/stumblr/commit/89b25b2a97359ead5e3a99f0421ffdb797580bee)
+- [291f](https://github.com/DajanPlackovic/stumblr/commit/291fe16339f7e5de62dd68e15674c9be765f2231)
 
 #### JavaScript
 
