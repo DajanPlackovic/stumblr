@@ -388,6 +388,7 @@ $('button[data-action="delete-collection"]').on('click', function (e) {
       const success = () => {
         $(button).parents('.item-card').remove();
         $('#general_modal').modal('hide');
+        showInfo("Collection successfully deleted");
       };
       ajaxPost({ url, data, success });
     });
