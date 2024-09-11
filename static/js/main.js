@@ -319,6 +319,9 @@ function addToCollection() {
         const url = '/create-collection';
         const success = (collection) => {
           $(menu)
+            .find('.add-collection')
+            .off('submit')
+            .end()
             .find('.collection-list')
             .append(makeMenuItem(collection))
             .find('input[type="text"]')
@@ -385,8 +388,12 @@ $('button[data-action="delete-collection"]').on('click', function (e) {
       const data = $('#delete_collection_form').serialize();
       const success = () => {
         $(button).parents('.item-card').remove();
-        $('#general_modal').modal('hide');
-        showInfo("Collection successfully deleted");
+        $('#general_modal')
+          .find('.btn-primary')
+          .off('click')
+          .end()
+          .modal('hide');
+        showInfo('Collection successfully deleted');
       };
       ajaxPost({ url, data, success });
     });
