@@ -7,6 +7,12 @@ from .forms import CreatePostForm
 
 
 def check_theme(request):
+    """
+    Checks if the user has set a dark theme preference and returns it.
+
+    Returns:
+        bool: True if the user prefers a dark theme, False otherwise.
+    """
     if "dark_theme" in request.session:
         return request.session["dark_theme"]
     else:
@@ -14,6 +20,12 @@ def check_theme(request):
 
 
 def set_theme(request):
+    """
+    Toggle the user's dark theme preference and return a 200 status code.
+
+    Returns:
+        HttpResponse: A 200 status code indicating the theme preference was successfully toggled.
+    """
     if "dark_theme" in request.session:
         request.session["dark_theme"] = not request.session["dark_theme"]
     else:
@@ -22,10 +34,29 @@ def set_theme(request):
 
 
 def success(text='Success'):
+    """
+    Return a JSON response with a status code of 200 and a key "text" containing the provided text.
+
+    Args:
+        text (str): The text to be returned in the JSON response. Defaults to 'Success'.
+
+    Returns:
+        JsonResponse: A JSON response with a status code of 200 and a key "text" containing the provided text.
+    """
     return JsonResponse({"text": text}, status=200)
 
 
 def error(text='An error has occurred'):
+    """
+    Return a JSON response with a status code of 500 and a key "text" containing the provided text.
+
+    Args:
+        text (str): The text to be returned in the JSON response. Defaults to 'An error has occurred'.
+
+    Returns:
+        JsonResponse: A JSON response with a status code of 500 and a key "text" containing the provided text.
+    """
+
     return JsonResponse({"text": text}, status=500)
 
 
@@ -51,6 +82,15 @@ def index(request):
 
 
 def post_list(request, posts):
+    """
+    Renders the post_list page, displaying a list of posts.
+
+    :param request: (HttpRequest): The HTTP request object.
+    :param posts: (QuerySet): The QuerySet of posts to be rendered.
+
+    :return: HttpResponse: The rendered post_list.html template with
+    the post_list context variable.
+    """
     paginator = Paginator(posts, 16)
 
     page_number = request.GET.get("page")
@@ -62,16 +102,39 @@ def post_list(request, posts):
 
 
 def post_list_index(request):
+    """
+    Renders the post_list page with all posts.
+
+    :param request: The HTTP request object.
+    :return: HttpResponse: The rendered post_list.html template with
+    the post_list context variable.
+    """
     posts = Post.objects.all()
     return post_list(request, posts)
 
 
 def post_list_user(request, user_id):
+    """
+    Renders the post_list page with posts from a specific user.
+
+    :param request: The HTTP request object.
+    :param user_id: The id of the user whose posts are to be rendered.
+    :return: HttpResponse: The rendered post_list.html template with
+    the post_list context variable.
+    """
     posts = Post.objects.filter(author_id=user_id)
     return post_list(request, posts)
 
 
 def post_list_collection(request, slug):
+    """
+    Renders the post_list page with posts from a specific collection.
+
+    :param request: The HTTP request object.
+    :param slug: The slug of the collection whose posts are to be rendered.
+    :return: HttpResponse: The rendered post_list.html template with
+    the post_list context variable.
+    """
     posts = Collection.objects.get(slug=slug).posts.all()
     return post_list(request, posts)
 
@@ -119,6 +182,19 @@ def create_post(request):
 
 
 def edit_post(request, post_id):
+    """
+    Edits a post.
+
+    If the request is a POST, validates the input and updates the text of
+    the post with the given id. If the request is a GET, renders a form to
+    edit the post.
+
+    :param request: (HttpRequest): The HTTP request object.
+    :param post_id: The id of the post to edit.
+    :return: A JSON response with the status 200 if the post is edited
+        successfully, or a HTML page with the form to edit the post if the
+        request is a GET request.
+    """
     post = Post.objects.get(id=post_id)
     if request.method == "POST":
         text = dict(request.POST)["text"][0]
@@ -189,6 +265,13 @@ def collections(request):
 
 
 def collection_list(request, collections):
+    """
+    Renders a page with a list of collections.
+
+    :param request: The HTTP request object.
+    :param collections: The QuerySet of collections to be rendered.
+    :return: A rendered HTML page with the list of collections.
+    """
     paginator = Paginator(collections, 16)
 
     page_number = request.GET.get("page")
@@ -200,11 +283,25 @@ def collection_list(request, collections):
 
 
 def collection_list_all(request):
+    """
+    Renders a page with a list of all collections.
+
+    :param request: The HTTP request object.
+    :return: A rendered HTML page with the list of collections.
+    """
+
     collections = Collection.objects.all().order_by('-updated_on')
     return collection_list(request, collections)
 
 
 def collection_list_user(request, user_id):
+    """
+    Renders a page with a list of collections from a specific user.
+
+    :param request: The HTTP request object.
+    :param user_id: The id of the user whose collections are to be rendered.
+    :return: A rendered HTML page with the list of collections.
+    """
     collections = Collection.objects.filter(
         author_id=user_id).order_by('-updated_on')
     return collection_list(request, collections)
@@ -313,6 +410,22 @@ def delete_collection(request, collection_id):
 
 
 def edit_collection(request, id):
+    """
+    Edits a collection.
+
+    If the request is a POST, validates the input and updates the name of
+    the collection with the given id. If the request is a GET, renders a form
+    to edit the collection.
+
+    :param request: A POST request with a 'name' parameter for
+        the new collection name.
+    :param id: The id of the collection to edit.
+    :return: A JSON response with the status 200 if the collection is edited
+        successfully, or a HTML page with the form to edit the collection if
+        the request is a GET request.
+    :raises: HttpResponse or JsonResponse with status 500 if there is an error,
+        or if the collection already exists.
+    """
     name = dict(request.POST)["name"][0]
     collection = Collection.objects.get(id=id)
     try:
@@ -382,6 +495,12 @@ def user(request, user_id):
 
 
 def follow_user(request):
+    """
+    Adds a user to the list of users that the current user is following.
+
+    :param request: The request object.
+    :return: A success or error message.
+    """
     followed_id = int(dict(request.POST)["followed"][0])
     if followed_id != request.user.id:
         followings = request.user.followed.all()
@@ -398,6 +517,12 @@ def follow_user(request):
 
 
 def unfollow_user(request):
+    """
+    Removes a user from the list of users that the current user is following.
+
+    :param request: The request object.
+    :return: A success or error message.
+    """
     followed_id = int(dict(request.POST)["followed"][0])
     if followed_id != request.user.id:
         followings = request.user.followed.all()
