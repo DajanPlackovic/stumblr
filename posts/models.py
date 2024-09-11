@@ -13,7 +13,8 @@ class Post(models.Model):
     author = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name="posts")
     reblogged = models.ForeignKey(
-        "self", on_delete=models.CASCADE, related_name="reblogs", null=True, blank=True)
+        "self", on_delete=models.CASCADE, related_name="reblogs",
+        null=True, blank=True)
     time_posted = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
