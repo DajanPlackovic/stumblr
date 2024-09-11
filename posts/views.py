@@ -173,7 +173,7 @@ def create_post(request):
                         "author_username": new_post.author.username,
                         "time_posted": new_post.time_posted.strftime(
                             "%d/%m/%Y %H:%M"
-                            ),
+                        ),
                         "post_id": new_post.id,
                     },
                     "condition": {
@@ -247,7 +247,7 @@ def delete_post(request, post_id):
                         "author_username": post.author.username,
                         "time_posted": post.time_posted.strftime(
                             "%d/%m/%Y %H:%M"
-                            ),
+                        ),
                     },
                     "condition": {
                         "authenticated": request.user.is_authenticated,
@@ -474,9 +474,12 @@ def user(request, user_id):
     collections_paginator = Paginator(all_collections, 16)
     collections = collections_paginator.get_page(1)
 
-    followings = request.user.followed.all()
-    all_followed = set([following.followed for following in followings])
-    user_follows = displayed_user in all_followed
+    if (request.user.is_authenticated):
+        followings = request.user.followed.all()
+        all_followed = set([following.followed for following in followings])
+        user_follows = displayed_user in all_followed
+    else:
+        user_follows = False
 
     followers_followings = displayed_user.followers.all()
     followers = [
