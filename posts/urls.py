@@ -1,5 +1,10 @@
 from django.urls import path, include
-from .views import index, create_post, delete_post, collections, individual_collection, collection_menu, create_collection, user, delete_collection, edit_collection, edit_post, post_list_index, post_list_user, post_list_collection, collection_list_all, collection_list_user, follow_user, unfollow_user, set_theme
+from .views import index, create_post, delete_post, collections
+from .views import individual_collection, collection_menu, create_collection
+from .views import user, delete_collection, edit_collection, edit_post
+from .views import post_list_index, post_list_user, post_list_collection
+from .views import collection_list_all, collection_list_user, follow_user
+from .views import unfollow_user, set_theme
 
 urlpatterns = [
     path('', include(
