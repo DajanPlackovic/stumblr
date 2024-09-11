@@ -388,6 +388,7 @@ def create_collection(request):
     name = dict(request.POST)["name"][0]
     try:
         collection = request.user.collections.create(name=name)
+        return JsonResponse({"name": collection.name, "id": collection.id})
     except Exception as e:
         s = str(e)
         if "duplicate key value" in s:
@@ -395,8 +396,6 @@ def create_collection(request):
             errorText += "Collection already exists"
             return error(errorText)
         return error()
-    # @TODO: Handle errors
-    return JsonResponse({"name": collection.name, "id": collection.id})
 
 
 def delete_collection(request, collection_id):
