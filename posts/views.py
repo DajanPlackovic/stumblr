@@ -24,7 +24,8 @@ def set_theme(request):
     Toggle the user's dark theme preference and return a 200 status code.
 
     Returns:
-        HttpResponse: A 200 status code indicating the theme preference was successfully toggled.
+        HttpResponse: A 200 status code indicating the theme preference was
+        successfully toggled.
     """
     if "dark_theme" in request.session:
         request.session["dark_theme"] = not request.session["dark_theme"]
@@ -35,26 +36,32 @@ def set_theme(request):
 
 def success(text='Success'):
     """
-    Return a JSON response with a status code of 200 and a key "text" containing the provided text.
+    Return a JSON response with a status code of 200 and a key "text"
+    containing the provided text.
 
     Args:
-        text (str): The text to be returned in the JSON response. Defaults to 'Success'.
+        text (str): The text to be returned in the JSON response.
+        Defaults to 'Success'.
 
     Returns:
-        JsonResponse: A JSON response with a status code of 200 and a key "text" containing the provided text.
+        JsonResponse: A JSON response with a status code of 200 and a key
+        "text" containing the provided text.
     """
     return JsonResponse({"text": text}, status=200)
 
 
 def error(text='An error has occurred'):
     """
-    Return a JSON response with a status code of 500 and a key "text" containing the provided text.
+    Return a JSON response with a status code of 500 and a key "text"
+    containing the provided text.
 
     Args:
-        text (str): The text to be returned in the JSON response. Defaults to 'An error has occurred'.
+        text (str): The text to be returned in the JSON response. Defaults to
+        'An error has occurred'.
 
     Returns:
-        JsonResponse: A JSON response with a status code of 500 and a key "text" containing the provided text.
+        JsonResponse: A JSON response with a status code of 500 and a key
+        "text" containing the provided text.
     """
 
     return JsonResponse({"text": text}, status=500)
@@ -164,7 +171,9 @@ def create_post(request):
                         "text": new_post.text,
                         "author_url": "",
                         "author_username": new_post.author.username,
-                        "time_posted": new_post.time_posted.strftime("%d/%m/%Y %H:%M"),
+                        "time_posted": new_post.time_posted.strftime(
+                            "%d/%m/%Y %H:%M"
+                            ),
                         "post_id": new_post.id,
                     },
                     "condition": {
@@ -236,7 +245,9 @@ def delete_post(request, post_id):
                         "text": post.text,
                         "author_url": "",
                         "author_username": post.author.username,
-                        "time_posted": post.time_posted.strftime("%d/%m/%Y %H:%M"),
+                        "time_posted": post.time_posted.strftime(
+                            "%d/%m/%Y %H:%M"
+                            ),
                     },
                     "condition": {
                         "authenticated": request.user.is_authenticated,
@@ -357,8 +368,10 @@ def collection_menu(request, post_id):
         return success("")
     else:
         collections = request.user.collections.all().order_by('name')
-        response = [{"name": collection.name, "id": collection.id,
-                    "checked": collection.posts.filter(id=post_id).count() > 0} for collection in collections]
+        response = [{
+                    "name": collection.name, "id": collection.id,
+                    "checked": collection.posts.filter(id=post_id).count() > 0
+                    } for collection in collections]
         return JsonResponse({"response": response})
 
 
