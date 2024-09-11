@@ -349,7 +349,7 @@ function addToCollection() {
   function editCollectionName(clickEvent) {
     const editBtn = clickEvent.currentTarget;
     const input = $(editBtn).parents('li').find('input[type="text"]');
-    $(editBtn).parents('.list-group-item > .row').hide();
+    $(editBtn).parents('.actions').hide();
     $(input)
       .show()
       .focus()
@@ -357,14 +357,10 @@ function addToCollection() {
         if (e.key == 'Enter') {
           const id = $(editBtn).attr('data-post');
           const name = $(input).val();
-          const url = `edit-collection/${id}`;
+          const url = `/edit-collection/${id}`;
           const success = () => {
             $(input).hide();
-            $(editBtn)
-              .parents('.list-group-item > .row')
-              .show()
-              .find('label')
-              .text(name);
+            $(editBtn).parents('.actions').show().find('label').text(name);
           };
           ajaxPost({ url, data: { name }, success });
         }

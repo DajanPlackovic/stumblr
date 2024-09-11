@@ -168,3 +168,8 @@
 .collection-menu.show {
   display: block;
 }
+
+.actions {
+  display: flex;
+  justify-content: space-between;
+}
