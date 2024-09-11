@@ -175,16 +175,16 @@
         </div>
         <div class="post__actions d-flex justify-content-between">
           {| authenticated |}
-          <button tabindex="0" class="btn btn-primary me-2" data-post="{{ post.id }}" data-action="add_to_collection">
+          <button tabindex="0" class="btn btn-primary me-2" data-post="|| post_id ||" data-action="add_to_collection">
             <i class="fa-regular fa-bookmark"></i>
           </button>
           <div class="collection-menu card p-2"></div>
           {| authenticated |}
           {| actionable |}
-          <button class="btn btn-primary me-2" data-post="{{ post.id }}" data-action="edit">
+          <button class="btn btn-primary me-2" data-post="|| post_id ||" data-action="edit">
             <i class="fas fa-pen"></i>
           </button>
-          <button class="btn btn-danger" data-post="{{ post.id }}" data-action="delete"><i
+          <button class="btn btn-danger" data-post="|| post_id ||" data-action="delete"><i
               class="fas fa-trash"></i></button>
           {| actionable |}
         </div>

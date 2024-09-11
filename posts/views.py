@@ -102,6 +102,7 @@ def create_post(request):
                         "author_url": "",
                         "author_username": new_post.author.username,
                         "time_posted": new_post.time_posted.strftime("%d/%m/%Y %H:%M"),
+                        "post_id": new_post.id,
                     },
                     "condition": {
                         "authenticated": request.user.is_authenticated,

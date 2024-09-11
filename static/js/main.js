@@ -32,7 +32,7 @@ function showErrorOrInfo(response, error) {
   let text;
   let className = error ? 'bg-danger' : 'bg-info';
   if (error) {
-    if (response.responseJSON?.text) {
+    if (response.responseJSON && response.responseJSON.text) {
       text = response.responseJSON.text;
     } else {
       text = 'An error has occurred';
@@ -128,6 +128,16 @@ $('#create_post_btn').on('click', () => {
       if (postContainer[0]) {
         const postTemplate = $('template#post').html();
         postContainer.prepend(renderTemplate(data, postTemplate));
+        const newPost = $('#post_container').children().first();
+        newPost
+          .find('button[data-action="add_to_collection"]')
+          .on('click', addToCollection)
+          .end()
+          .find('button[data-action="edit"]')
+          .on('click', editPost)
+          .end()
+          .find('button[data-action="delete"]')
+          .on('click', deletePost);
       } else {
         message += `\n<a href="/">View here.</a>`;
       }
@@ -148,8 +158,7 @@ $('#create_post_btn').on('click', () => {
 /*=============================================
 =              Action Menu Posts              =
 =============================================*/
-
-$('button[data-action="delete"]').on('click', function (e) {
+function deletePost(e) {
   e.preventDefault();
   const button = this;
   const url = `/delete-post/${$(button).attr('data-post')}`;
@@ -176,9 +185,11 @@ $('button[data-action="delete"]').on('click', function (e) {
     $('#general_modal .modal-body').html(renderTemplate(data, post));
   };
   ajaxGet({ url, beforeSend, success });
-});
+}
 
-$('button[data-action="edit"]').on('click', function (e) {
+$('button[data-action="delete"]').on('click', deletePost);
+
+function editPost(e) {
   e.preventDefault();
   const url = `/edit-post/${$(this).attr('data-post')}`;
   const textCard = $(this).parents('.item-card').find('.card-text');
@@ -188,7 +199,7 @@ $('button[data-action="edit"]').on('click', function (e) {
     const data = { text: newText };
     const success = (data) => {
       $('#general_modal').modal('hide');
-      textCard.text(data?.text);
+      textCard.text(data.text);
       showInfo('Post successfully edited.');
       $('#general_modal .btn-primary').off('click');
     };
@@ -201,7 +212,9 @@ $('button[data-action="edit"]').on('click', function (e) {
     $('#general_modal .modal-body').html(data);
   };
   ajaxGet({ url, beforeSend, success });
-});
+}
+
+$('button[data-action="edit"]').on('click', editPost);
 
 /*=============================================
 =              Add to Collection              =
@@ -251,7 +264,7 @@ function makeMenuHtml(collections) {
   }
   return $(container).html();
 }
-function buttonAction() {
+function addToCollection() {
   const btn = this;
   const menu = $(btn).next()[0];
   const url = `/collection-menu/${$(btn).attr('data-post')}`;
@@ -275,18 +288,6 @@ function buttonAction() {
     registerEditEvent();
     populated = true;
   }
-  function buildMenu(data) {
-    const { response } = data;
-    const menuHtml = makeMenuHtml(response);
-    $(menu).html(menuHtml).find('.add-collection input').hide();
-
-    /*----------  Add collection logic  ----------*/
-    $(menu).find('.add-collection button').on('click', addCollection);
-    $(btn).off('click');
-    hideAndPostOnClose();
-    registerEditEvent();
-    populated = true;
-  }
 
   function hideAndPostOnClose() {
     $(document).on('click', function (event) {
@@ -300,7 +301,7 @@ function buttonAction() {
           const success = () => {
             $(menu).hide();
             cleanup(); // stop tracking menu position
-            $(btn).on('click', buttonAction);
+            $(btn).on('click', addToCollection);
           };
           ajaxPost({ url, data, success });
           populated = false;
@@ -374,7 +375,7 @@ function buttonAction() {
   }
 }
 
-$('button[data-action="add_to_collection"]').on('click', buttonAction);
+$('button[data-action="add_to_collection"]').on('click', addToCollection);
 
 /*=============================================
 =              Delete Collection              =
