@@ -65,24 +65,21 @@ const showInfo = (text) => showErrorOrInfo(text, false);
 =============================================*/
 
 function ajaxWrapper(type, rest = {}) {
-  $.ajax({
-    type: type,
-    error: (data) => {
-      showError(data);
-    },
-    ...rest,
-  });
+  rest.type = type;
+  rest.error = (data) => {
+    showError(data);
+  };
+  $.ajax(rest);
 }
 
 const ajaxGet = (rest = {}) => ajaxWrapper('GET', rest);
-const ajaxPost = (rest = {}) =>
-  ajaxWrapper('POST', {
-    ...rest,
-    headers: {
-      'X-CSRFToken': csrftoken,
-    },
-    mode: 'same-origin',
-  });
+const ajaxPost = (rest = {}) => {
+  rest.headers = {
+    'X-CSRFToken': csrftoken,
+  };
+  rest.mode = 'same-origin';
+  ajaxWrapper('POST', rest);
+};
 
 /*=============================================
 =          Render Frontend Templates          =
@@ -294,8 +291,7 @@ function addToCollection() {
       if (!menu.contains(event.target)) {
         if (populated) {
           const formData = $(menu).find('.collection-list').serialize();
-          const data = formData
-            ? formData
+          const data = formData ? formData
             : $.param({ collection: 'empty' }, true);
           $(menu).html(loader);
           const success = () => {
