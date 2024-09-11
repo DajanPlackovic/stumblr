@@ -378,15 +378,16 @@ $('button[data-action="add_to_collection"]').on('click', addToCollection);
 =============================================*/
 $('button[data-action="delete-collection"]').on('click', function (e) {
   e.preventDefault();
-  const url = `/delete-collection/${$(this).attr('data-post')}`;
+  const button = this;
+  const url = `/delete-collection/${$(button).attr('data-post')}`;
   updateModal('Delete Collection', 'Cancel', 'Delete');
   $('#general_modal .btn-primary')
     .addClass('btn-danger')
     .on('click', () => {
       const data = $('#delete_collection_form').serialize();
       const success = () => {
-        // @TODO: just remove the deleted collection, instead of reloading
-        window.location.replace('');
+        $(button).parents('.item-card').remove();
+        $('#general_modal').modal('hide');
       };
       ajaxPost({ url, data, success });
     });
