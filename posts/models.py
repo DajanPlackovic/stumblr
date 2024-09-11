@@ -42,8 +42,3 @@ class Following(models.Model):
 
     def __str__(self):
         return f"{self.follower.username} follows {self.followed.username}"
-
-
-class DarkTheme(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    dark_theme = models.BooleanField()

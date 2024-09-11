@@ -2,21 +2,22 @@ from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, JsonResponse
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator
-from .models import Post, Collection, Following, DarkTheme
+from .models import Post, Collection, Following
 from .forms import CreatePostForm
 
 
 def check_theme(request):
-    theme = DarkTheme.objects.get_or_create(
-        user=request.user, defaults={"dark_theme": False})[0]
-    return theme.dark_theme
+    if "dark_theme" in request.session:
+        return request.session["dark_theme"]
+    else:
+        return False
 
 
 def set_theme(request):
-    new_theme = dict(request.POST)["theme"][0]
-    theme = DarkTheme.objects.get(user=request.user)
-    theme.dark_theme = new_theme == 'dark'
-    theme.save()
+    if "dark_theme" in request.session:
+        request.session["dark_theme"] = not request.session["dark_theme"]
+    else:
+        request.session["dark_theme"] = True
     return HttpResponse(status=200)
 
 
