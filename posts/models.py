@@ -5,6 +5,10 @@ from django.utils.text import slugify
 
 # Create your models here.
 class Post(models.Model):
+    """
+    The Post model for individual posts consisting of the text content,
+    the author, the reblogged post and the time posted.
+    """
     text = models.TextField(max_length=10000)
     author = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name="posts")
@@ -17,6 +21,11 @@ class Post(models.Model):
 
 
 class Collection(models.Model):
+    """
+    The Collection model for a collection of posts, consisting of a name,
+    a many to many field for all the associated posts and the author field
+    containing the Foreign Key of the User who create the collection.
+    """
     name = models.CharField(max_length=200, unique=True)
     posts = models.ManyToManyField(
         Post, blank=True, related_name="collections")
@@ -35,6 +44,10 @@ class Collection(models.Model):
 
 
 class Following(models.Model):
+    """
+    The Following model connecting two users via Foreign Keys, the follower
+    with the followed.
+    """
     follower = models.ForeignKey(
         User, related_name="followed", on_delete=models.CASCADE)
     followed = models.ForeignKey(
